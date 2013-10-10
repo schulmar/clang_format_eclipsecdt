@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="net.github.clang_formateclipse.Formatter"
+         name="Clang Format"
+         point="org.eclipse.cdt.core.CodeFormatter">
+         <codeFormatter class="net.github.clang_formateclipse.Formatter" name="Clang Format Plugin" id="net.github.clang_formateclipse.Formatter" />
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="net.github.clang_formateclipse.PreferencePage"
+            id="net.github.clang_formateclipse.PreferencePage"
+            name="Clang Format"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="net.github.clang_formateclipse.PreferenceInitializer"/>
+   </extension>
+</plugin>
