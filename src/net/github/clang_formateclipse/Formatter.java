@@ -73,8 +73,11 @@ public class Formatter extends CodeFormatter {
 		if (prefs.getString(Preferences.STYLE_CHOICE) != Preferences.STYLE_NONE)
 			style += styleOption("BasedOnStyle",
 					prefs.getString(Preferences.STYLE_CHOICE));
+		//the clang option is relative to the indented body,
+		//while the preferences is relative to the "class" indentation
 		style += styleOption("AccessModifierOffset",
-				preferences.indent_access_specifier_extra_spaces);
+				preferences.indent_access_specifier_extra_spaces
+				- preferences.indentation_size);
 		// TODO: style += styleOption("AlignEscapedNewlinesLeft", );
 		style += styleOption(
 				"AlignTrailingComments",
