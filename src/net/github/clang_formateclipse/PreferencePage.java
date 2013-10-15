@@ -43,6 +43,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		addField(new BooleanFieldEditor(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE, "Allow short loops on a single line", composite));
 		addField(new BooleanFieldEditor(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS, "Always break on multiline strings", composite));
 		addField(new BooleanFieldEditor(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS, "Always break template declarations", composite));
+		addField(new BooleanFieldEditor(Preferences.BIN_PACK_PARAMETERS, "BinPackParameters", composite));
 	}
 
 	/*

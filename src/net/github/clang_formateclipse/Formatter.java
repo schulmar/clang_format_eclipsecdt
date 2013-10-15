@@ -88,7 +88,7 @@ public class Formatter extends CodeFormatter {
 		style += booleanStyleOption(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE);
 		style += booleanStyleOption(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS);
 		style += booleanStyleOption(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS);
-		// TODO: style += styleOption("BinPackParameters", );
+		style += booleanStyleOption(Preferences.BIN_PACK_PARAMETERS);
 		// TODO: style += styleOption("BreakBeforeBinaryOperators", );
 		// TODO: style += styleOption("BreakBeforeBraces", );
 		// TODO: style += styleOption("BreakConstructorInitializersBeforeComma",

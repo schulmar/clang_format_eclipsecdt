@@ -22,6 +22,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE, true);
 		store.setDefault(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS, false);
 		store.setDefault(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS, false);
+		store.setDefault(Preferences.BIN_PACK_PARAMETERS, true);
 	}
 
 }
