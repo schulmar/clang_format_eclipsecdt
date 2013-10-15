@@ -85,7 +85,7 @@ public class Formatter extends CodeFormatter {
 		style += booleanStyleOption(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE);
 		style += styleOption("AllowShortIfStatementsOnASingleLine",
 				preferences.keep_simple_if_on_one_line);
-		// TODO: style += styleOption("AllowShortLoopsOnASingleLine", );
+		style += booleanStyleOption(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE);
 		// TODO: style += styleOption("AlwaysBreakBeforeMultilineStrings", );
 		// TODO: style += styleOption("AlwaysBreakTemplateDeclarations", );
 		// TODO: style += styleOption("BinPackParameters", );

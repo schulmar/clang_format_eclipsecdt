@@ -19,6 +19,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(Preferences.CLANG_FORMAT_PATH, "/usr/bin/clang-format");
 		store.setDefault(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, false);
 		store.setDefault(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT, true);
+		store.setDefault(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE, true);
 	}
 
 }
