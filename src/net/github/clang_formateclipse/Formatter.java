@@ -87,7 +87,7 @@ public class Formatter extends CodeFormatter {
 				preferences.keep_simple_if_on_one_line);
 		style += booleanStyleOption(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE);
 		style += booleanStyleOption(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS);
-		// TODO: style += styleOption("AlwaysBreakTemplateDeclarations", );
+		style += booleanStyleOption(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS);
 		// TODO: style += styleOption("BinPackParameters", );
 		// TODO: style += styleOption("BreakBeforeBinaryOperators", );
 		// TODO: style += styleOption("BreakBeforeBraces", );
