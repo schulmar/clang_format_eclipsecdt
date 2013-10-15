@@ -39,7 +39,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 						{ "clang-format's default", Preferences.STYLE_NONE }, }, 
 				composite));
 		addField(new BooleanFieldEditor(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, "Allow all parameters of a declaration to be wrapped to the next line", composite));
-		addField(allow_all_parameters_of_declaration_on_next_line);
+		addField(new BooleanFieldEditor(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT, "Align escaped newlines", composite));
 	}
 
 	/*

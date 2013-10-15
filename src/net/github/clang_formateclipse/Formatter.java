@@ -78,7 +78,7 @@ public class Formatter extends CodeFormatter {
 		style += styleOption("AccessModifierOffset",
 				preferences.indent_access_specifier_extra_spaces
 				- preferences.indentation_size);
-		// TODO: style += styleOption("AlignEscapedNewlinesLeft", );
+		style += booleanStyleOption(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT);
 		style += styleOption(
 				"AlignTrailingComments",
 				preferences.comment_preserve_white_space_between_code_and_line_comment);
