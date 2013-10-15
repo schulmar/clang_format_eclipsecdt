@@ -12,4 +12,5 @@ public class Preferences {
 	public static final String ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE = "AllowAllParametersOfDeclarationOnNextLine";
 	public static final String ALIGN_ESCAPED_NEWLINES_LEFT = "AlignEscapedNewlinesLeft";
 	public static final String ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE = "AllowShortLoopsOnASingleLine";
+	public static final String ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS = "AlwaysBreakBeforeMultilineStrings";
 }

@@ -20,6 +20,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, false);
 		store.setDefault(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT, true);
 		store.setDefault(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE, true);
+		store.setDefault(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS, false);
 	}
 
 }
