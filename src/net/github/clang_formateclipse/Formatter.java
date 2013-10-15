@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import org.eclipse.text.edits.TextEdit;
 
 public class Formatter extends CodeFormatter {
 	private DefaultCodeFormatterOptions preferences;
-	private Map<String, ?> options;
+
 	/**
 	 * Constructor of Formatter
 	 */
@@ -29,14 +30,17 @@ public class Formatter extends CodeFormatter {
 	@Override
 	public TextEdit format(int kind, String source, int offset, int length,
 			int indentationLevel, String lineSeparator) {
+		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
 		Runtime RT = Runtime.getRuntime();
 		String target = "";
-		try
-		{
-			String command = String.format("clang-format -offset=%d -length=%d ", offset, length);
-			command += createOptions();
-			Process subProc = RT.exec(command);
-			System.out.println(command);
+		try {
+			String[] args = {
+				prefs.getString(Preferences.CLANG_FORMAT_PATH),
+				String.format("-offset=%d", offset),
+				String.format("-length=%d", length),
+				createOptions()
+			};
+			Process subProc = RT.exec(args);
 			InputStream inStream = subProc.getInputStream();
 			OutputStream outStream = subProc.getOutputStream();
 			outStream.write(source.getBytes(Charset.forName("UTF-8")));
@@ -44,18 +48,15 @@ public class Formatter extends CodeFormatter {
 			InputStreamReader reader = new InputStreamReader(inStream);
 			BufferedReader br = new BufferedReader(reader);
 			String line = null;
-			while((line = br.readLine()) != null)
-			{
+			while ((line = br.readLine()) != null) {
 				target += line + lineSeparator;
 			}
 			reader = new InputStreamReader(subProc.getErrorStream());
 			br = new BufferedReader(reader);
-			while((line = br.readLine()) != null)
-			{
+			while ((line = br.readLine()) != null) {
 				System.err.println(line);
 			}
-		} catch(IOException exception)
-		{
+		} catch (IOException exception) {
 			System.out.print(exception.getMessage());
 		}
 		int textOffset = 0;
@@ -64,36 +65,49 @@ public class Formatter extends CodeFormatter {
 		textEdit.addChild(new ReplaceEdit(textOffset, textLength, target));
 		return textEdit;
 	}
-	
+
 	public String createOptions() {
 		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
 		String options = "";
 		String style = "";
 		if (prefs.getString(Preferences.STYLE_CHOICE) != Preferences.STYLE_NONE)
-			style += styleOption("BasedOnStyle", prefs.getString(Preferences.STYLE_CHOICE));
-		style += styleOption("AccessModifierOffset", preferences.indent_access_specifier_extra_spaces);
-		//TODO: style += styleOption("AlignEscapedNewlinesLeft", );
-		style += styleOption("AlignTrailingComments", preferences.comment_preserve_white_space_between_code_and_line_comment);
-		//TODO: style += styleOption("AllowAllParametersOfDeclarationOnNextLine", );
-		style += styleOption("AllowShortIfStatementsOnASingleLine", preferences.keep_simple_if_on_one_line);
-		//TODO: style += styleOption("AllowShortLoopsOnASingleLine", );
-		//TODO: style += styleOption("AlwaysBreakBeforeMultilineStrings", );
-		//TODO: style += styleOption("AlwaysBreakTemplateDeclarations", );
-		//TODO: style += styleOption("BinPackParameters", );
+			style += styleOption("BasedOnStyle",
+					prefs.getString(Preferences.STYLE_CHOICE));
+		style += styleOption("AccessModifierOffset",
+				preferences.indent_access_specifier_extra_spaces);
+		// TODO: style += styleOption("AlignEscapedNewlinesLeft", );
+		style += styleOption(
+				"AlignTrailingComments",
+				preferences.comment_preserve_white_space_between_code_and_line_comment);
+		// TODO: style +=
+		// styleOption("AllowAllParametersOfDeclarationOnNextLine", );
+		style += styleOption("AllowShortIfStatementsOnASingleLine",
+				preferences.keep_simple_if_on_one_line);
+		// TODO: style += styleOption("AllowShortLoopsOnASingleLine", );
+		// TODO: style += styleOption("AlwaysBreakBeforeMultilineStrings", );
+		// TODO: style += styleOption("AlwaysBreakTemplateDeclarations", );
+		// TODO: style += styleOption("BinPackParameters", );
 		// TODO: style += styleOption("BreakBeforeBinaryOperators", );
 		// TODO: style += styleOption("BreakBeforeBraces", );
-		// TODO: style += styleOption("BreakConstructorInitializersBeforeComma", );
+		// TODO: style += styleOption("BreakConstructorInitializersBeforeComma",
+		// );
 		style += styleOption("ColumnLimit", preferences.page_width);
-		// TODO: style += styleOption("ConstructorInitializerAllOnOneLineOrOnePerLine", );
-		//TODO:style += styleOption("ConstructorInitializerIndentWidth",);
+		// TODO: style +=
+		// styleOption("ConstructorInitializerAllOnOneLineOrOnePerLine", );
+		// TODO:style += styleOption("ConstructorInitializerIndentWidth",);
 		// TODO: style += styleOption("Cpp11BracedListStyle", );
 		// TODO: style += styleOption("DerivePointerBinding", );
-		//TODO: is this correct?
-		style += styleOption("IndentCaseLabels", preferences.indent_switchstatements_compare_to_switch);
+		// TODO: is this correct?
+		style += styleOption("IndentCaseLabels",
+				preferences.indent_switchstatements_compare_to_switch);
 		// TODO: style += styleOption("IndentFunctionDeclarationAfterType", );
 		style += styleOption("IndentWidth", preferences.indentation_size);
-		style += styleOption("MaxEmptyLinesToKeep", preferences.number_of_empty_lines_to_preserve);
-		style += styleOption("NamespaceIndentation", preferences.indent_body_declarations_compare_to_namespace_header ? "All" : "None");
+		style += styleOption("MaxEmptyLinesToKeep",
+				preferences.number_of_empty_lines_to_preserve);
+		style += styleOption(
+				"NamespaceIndentation",
+				preferences.indent_body_declarations_compare_to_namespace_header ? "All"
+						: "None");
 		// TODO: style += styleOption("PenaltyBreakComment", );
 		// TODO: style += styleOption("PenaltyBreakFirstLessLess", );
 		// TODO: style += styleOption("PenaltyBreakString", );
@@ -101,76 +115,83 @@ public class Formatter extends CodeFormatter {
 		// TODO: style += styleOption("PenaltyReturnTypeOnItsOwnLine", );
 		// TODO: style += styleOption("PointerBindsToType", );
 		// TODO: test all referenced and trigger error on inconsistent result
-		style += styleOption("SpaceAfterControlStatementKeyword", preferences.insert_space_before_opening_paren_in_for);
-		style += styleOption("SpaceBeforeAssignmentOperators", preferences.insert_space_before_assignment_operator);
+		style += styleOption("SpaceAfterControlStatementKeyword",
+				preferences.insert_space_before_opening_paren_in_for);
+		style += styleOption("SpaceBeforeAssignmentOperators",
+				preferences.insert_space_before_assignment_operator);
 		// TODO: test all referenced and trigger error on inconsistent result
-		style += styleOption("SpaceInEmptyParentheses", preferences.insert_space_between_empty_parens_in_method_invocation);
-		style += styleOption("SpacesBeforeTrailingComments", preferences.comment_min_distance_between_code_and_line_comment);
+		style += styleOption(
+				"SpaceInEmptyParentheses",
+				preferences.insert_space_between_empty_parens_in_method_invocation);
+		style += styleOption("SpacesBeforeTrailingComments",
+				preferences.comment_min_distance_between_code_and_line_comment);
 		// TODO: test all referenced and trigger error on inconsistent result
-		style += styleOption("SpacesInCStyleCastParentheses", preferences.insert_space_after_opening_paren_in_cast);
-		//TODO: too many affected options: style += styleOption("SpacesInParentheses",);
+		style += styleOption("SpacesInCStyleCastParentheses",
+				preferences.insert_space_after_opening_paren_in_cast);
+		// TODO: too many affected options: style +=
+		// styleOption("SpacesInParentheses",);
 		// TODO: style += styleOption("Standard", );
 		style += styleOption("TabWidth", preferences.tab_size);
-		switch(preferences.tab_char)
-		{
+		switch (preferences.tab_char) {
 		case DefaultCodeFormatterOptions.TAB:
 			style += styleOption("UseTab", tabIndentValue(), true);
-		break;
+			break;
 		case DefaultCodeFormatterOptions.MIXED:
 			style += styleOption("UseTab", tabIndentValue(), true);
-		break;
+			break;
 		case DefaultCodeFormatterOptions.SPACE:
 			style += styleOption("UseTab", "Never", true);
-		break;
+			break;
 		}
-		options += String.format(" -style=\"{%s}\"", style);
+		options += String.format("-style={%s}", style);
 		return options;
 	}
-	
+
 	private String styleOption(String name, String value) {
 		return styleOption(name, value, false);
 	}
-	
+
 	private String styleOption(String name, String value, boolean last) {
-		return String.format("%s:%s" + (last ? "" : ","), name, value);
+		return String.format("%s: %s" + (last ? "" : ", "), name, value);
 	}
-	
+
 	private String styleOption(String name, int value) {
 		return styleOption(name, value, false);
 	}
-	
+
 	private String styleOption(String name, int value, boolean last) {
 		return styleOption(name, Integer.toString(value), last);
 	}
-	
+
 	private String styleOption(String name, boolean value) {
 		return styleOption(name, value, false);
 	}
-	
+
 	private String styleOption(String name, boolean value, boolean last) {
 		return styleOption(name, value ? "true" : "false", last);
 	}
-	
+
 	String tabIndentValue() {
-		return preferences.use_tabs_only_for_leading_indentations ? "ForIndendation" : "Always";
+		return preferences.use_tabs_only_for_leading_indentations ? "ForIndendation"
+				: "Always";
 	}
 
 	@Override
-	public void setOptions(Map<String,?> options) {
-		//a shameless copy of the org.eclipse.cdt.internal.formatter.CCodeFormatter
+	public void setOptions(Map<String, ?> options) {
+		// a shameless copy of the
+		// org.eclipse.cdt.internal.formatter.CCodeFormatter
 		if (options != null) {
-			this.options= options;
-			Map<String, String> formatterPrefs= new HashMap<String, String>(options.size());
+			Map<String, String> formatterPrefs = new HashMap<String, String>(
+					options.size());
 			for (String key : options.keySet()) {
-				Object value= options.get(key);
+				Object value = options.get(key);
 				if (value instanceof String) {
 					formatterPrefs.put(key, (String) value);
 				}
 			}
-			preferences= new DefaultCodeFormatterOptions(formatterPrefs);
+			preferences = new DefaultCodeFormatterOptions(formatterPrefs);
 		} else {
-			this.options= CCorePlugin.getOptions();
-			preferences= DefaultCodeFormatterOptions.getDefaultSettings();
+			preferences = DefaultCodeFormatterOptions.getDefaultSettings();
 		}
 	}
 

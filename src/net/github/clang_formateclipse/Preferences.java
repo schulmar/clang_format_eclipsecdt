@@ -7,4 +7,6 @@ public class Preferences {
 	public static final String STYLE_CHROMIUM = "Chromium";
 	public static final String STYLE_MOZILLA = "Mozilla";
 	public static final String STYLE_NONE = "none";
+	
+	public static final String CLANG_FORMAT_PATH = "clangFormatPath";
 }
