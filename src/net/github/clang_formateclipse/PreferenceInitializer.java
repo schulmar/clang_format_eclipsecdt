@@ -17,6 +17,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(Preferences.STYLE_CHOICE, Preferences.STYLE_NONE);
 		store.setDefault(Preferences.CLANG_FORMAT_PATH, "/usr/bin/clang-format");
+		store.setDefault(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, false);
 	}
 
 }

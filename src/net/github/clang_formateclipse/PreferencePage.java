@@ -1,5 +1,6 @@
 package net.github.clang_formateclipse;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.FileFieldEditor;
@@ -11,6 +12,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {
 	RadioGroupFieldEditor styleField;
 	FileFieldEditor clangFormatPathField;
+	BooleanFieldEditor allow_all_parameters_of_declaration_on_next_line;
 
 	public PreferencePage() {
 		super(GRID);
@@ -43,6 +45,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 						{ "&default : Clang format's default",
 								Preferences.STYLE_NONE }, }, composite);
 		addField(styleField);
+		allow_all_parameters_of_declaration_on_next_line = new BooleanFieldEditor(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, "Allow all parameters of a declaration to be wrapped to the next line", composite);
+		addField(allow_all_parameters_of_declaration_on_next_line);
 	}
 
 	/*

@@ -79,8 +79,7 @@ public class Formatter extends CodeFormatter {
 		style += styleOption(
 				"AlignTrailingComments",
 				preferences.comment_preserve_white_space_between_code_and_line_comment);
-		// TODO: style +=
-		// styleOption("AllowAllParametersOfDeclarationOnNextLine", );
+		style += booleanStyleOption(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE);
 		style += styleOption("AllowShortIfStatementsOnASingleLine",
 				preferences.keep_simple_if_on_one_line);
 		// TODO: style += styleOption("AllowShortLoopsOnASingleLine", );
@@ -151,6 +150,11 @@ public class Formatter extends CodeFormatter {
 		return styleOption(name, value, false);
 	}
 
+	private String booleanStyleOption(String prefName)
+	{
+		return styleOption(prefName, Activator.getDefault().getPreferenceStore().getBoolean(prefName));
+	}
+	
 	private String styleOption(String name, String value, boolean last) {
 		return String.format("%s: %s" + (last ? "" : ", "), name, value);
 	}
