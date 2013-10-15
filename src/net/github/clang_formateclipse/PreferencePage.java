@@ -2,17 +2,14 @@ package net.github.clang_formateclipse;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
-import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.FileFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class PreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {
-	RadioGroupFieldEditor styleField;
-	FileFieldEditor clangFormatPathField;
-	BooleanFieldEditor allow_all_parameters_of_declaration_on_next_line;
 
 	public PreferencePage() {
 		super(GRID);
@@ -28,24 +25,20 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 	public void createFieldEditors() {
 
 		Composite composite = getFieldEditorParent();
-		clangFormatPathField = new FileFieldEditor(
+		addField(new FileFieldEditor(
 				Preferences.CLANG_FORMAT_PATH, "Path to clang-format",
-				composite);
-		addField(clangFormatPathField);
-		styleField = new RadioGroupFieldEditor(
+				composite));
+		addField(new ComboFieldEditor(
 				Preferences.STYLE_CHOICE,
-				" style ",
-				1,
+				"style",
 				new String[][] {
-						{ "&llvm : LLVM style ", Preferences.STYLE_LLVM },
-						{ "&google : Google style", Preferences.STYLE_GOOGLE },
-						{ "&chromium : Chromium style",
-								Preferences.STYLE_CHROMIUM },
-						{ "&mozilla : Mozilla style", Preferences.STYLE_MOZILLA },
-						{ "&default : Clang format's default",
-								Preferences.STYLE_NONE }, }, composite);
-		addField(styleField);
-		allow_all_parameters_of_declaration_on_next_line = new BooleanFieldEditor(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, "Allow all parameters of a declaration to be wrapped to the next line", composite);
+						{ "LLVM", Preferences.STYLE_LLVM },
+						{ "Google", Preferences.STYLE_GOOGLE },
+						{ "Chromium", Preferences.STYLE_CHROMIUM },
+						{ "Mozilla", Preferences.STYLE_MOZILLA },
+						{ "clang-format's default", Preferences.STYLE_NONE }, }, 
+				composite));
+		addField(new BooleanFieldEditor(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, "Allow all parameters of a declaration to be wrapped to the next line", composite));
 		addField(allow_all_parameters_of_declaration_on_next_line);
 	}
 
