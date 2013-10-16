@@ -110,9 +110,7 @@ public class Formatter extends CodeFormatter {
 		// TODO: style += styleOption("PenaltyExcessCharacter", );
 		// TODO: style += styleOption("PenaltyReturnTypeOnItsOwnLine", );
 		style += styleOption(Preferences.POINTER_BINDS_TO_TYPE);
-		// TODO: test all referenced and trigger error on inconsistent result
-		style += styleOption("SpaceAfterControlStatementKeyword",
-				preferences.insert_space_before_opening_paren_in_for);
+		style += styleOption(Preferences.SPACE_AFTER_CONTROL_STATEMENT_KEYWORD);
 		style += styleOption("SpaceBeforeAssignmentOperators",
 				preferences.insert_space_before_assignment_operator);
 		style += styleOption(Preferences.SPACE_IN_EMPTY_PARENTHESES);
