@@ -68,7 +68,6 @@ public class Formatter extends CodeFormatter {
 
 	public String createOptions() {
 		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
-		String options = "";
 		String style = "";
 		if (prefs.getString(Preferences.STYLE_CHOICE) != Preferences.STYLE_NONE)
 			style += styleOption("BasedOnStyle",
@@ -145,8 +144,7 @@ public class Formatter extends CodeFormatter {
 			style += styleOption("UseTab", "Never", true);
 			break;
 		}
-		options += String.format("-style={%s}", style);
-		return options;
+		return String.format("-style={%s}", style);
 	}
 
 	private String styleOption(String name, String value) {
