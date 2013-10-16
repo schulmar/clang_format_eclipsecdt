@@ -51,6 +51,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		addField(new IntegerFieldEditor(Preferences.CONSTRUCTOR_INITIALIZER_INDENT_WIDTH, "Constructor initializer indent width", composite));
 		addField(triStateBooleanFieldEditor(Preferences.CPP11_BRACED_LIST_STYLE, "C++11 braced list style", composite));
 		addField(triStateBooleanFieldEditor(Preferences.DERIVE_POINTER_BINDING, "Derive pointer binding", composite));
+		addField(triStateBooleanFieldEditor(Preferences.INDENT_FUNCTION_DECLARATION_AFTER_TYPE, "Indent function declaration after type", composite));
 	}
 
 	ComboFieldEditor triStateBooleanFieldEditor(String name, String label, Composite parent)

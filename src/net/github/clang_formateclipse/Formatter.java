@@ -96,7 +96,7 @@ public class Formatter extends CodeFormatter {
 		// TODO: is this correct?
 		style += styleOption("IndentCaseLabels",
 				preferences.indent_switchstatements_compare_to_switch);
-		// TODO: style += styleOption("IndentFunctionDeclarationAfterType", );
+		style += styleOption(Preferences.INDENT_FUNCTION_DECLARATION_AFTER_TYPE);
 		style += styleOption("IndentWidth", preferences.indentation_size);
 		style += styleOption("MaxEmptyLinesToKeep",
 				preferences.number_of_empty_lines_to_preserve);

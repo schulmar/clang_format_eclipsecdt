@@ -25,4 +25,5 @@ public class Preferences {
 	public static final String CONSTRUCTOR_INITIALIZER_INDENT_WIDTH = "ConstructorInitializerIndentWidth";
 	public static final String CPP11_BRACED_LIST_STYLE = "Cpp11BracedListStyle";
 	public static final String DERIVE_POINTER_BINDING = "DerivePointerBinding";
+	public static final String INDENT_FUNCTION_DECLARATION_AFTER_TYPE = "IndentFunctionDeclarationAfterType";
 }
