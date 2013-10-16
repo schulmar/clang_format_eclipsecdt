@@ -29,14 +29,14 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 				Preferences.CLANG_FORMAT_PATH, "Path to clang-format",
 				composite));
 		addField(new ComboFieldEditor(
-				Preferences.STYLE_CHOICE,
+				Preferences.BASED_ON_STYLE,
 				"style",
 				new String[][] {
 						{ "LLVM", Preferences.STYLE_LLVM },
 						{ "Google", Preferences.STYLE_GOOGLE },
 						{ "Chromium", Preferences.STYLE_CHROMIUM },
 						{ "Mozilla", Preferences.STYLE_MOZILLA },
-						{ "clang-format's default", Preferences.STYLE_NONE }, }, 
+						{ "clang-format's default", Preferences.NONE }, }, 
 				composite));
 		addField(triStateBooleanFieldEditor(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, "Allow all parameters of a declaration to be wrapped to the next line", composite));
 		addField(triStateBooleanFieldEditor(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT, "Align escaped newlines", composite));

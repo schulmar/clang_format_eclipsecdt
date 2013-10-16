@@ -5,12 +5,11 @@ public class Preferences {
 	public static final String TRUE = "true";
 	public static final String FALSE = "false";
 	
-	public static final String STYLE_CHOICE = "styleChoice";
+	public static final String BASED_ON_STYLE = "BasedOnStyle";
 	public static final String STYLE_LLVM = "LLVM";
 	public static final String STYLE_GOOGLE = "Google";
 	public static final String STYLE_CHROMIUM = "Chromium";
 	public static final String STYLE_MOZILLA = "Mozilla";
-	public static final String STYLE_NONE = "none";
 	
 	public static final String CLANG_FORMAT_PATH = "clangFormatPath";
 	public static final String ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE = "AllowAllParametersOfDeclarationOnNextLine";

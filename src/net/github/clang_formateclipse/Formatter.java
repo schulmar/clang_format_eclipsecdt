@@ -67,11 +67,8 @@ public class Formatter extends CodeFormatter {
 	}
 
 	public String createOptions() {
-		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
 		String style = "";
-		if (prefs.getString(Preferences.STYLE_CHOICE) != Preferences.STYLE_NONE)
-			style += styleOption("BasedOnStyle",
-					prefs.getString(Preferences.STYLE_CHOICE));
+		style += styleOption(Preferences.BASED_ON_STYLE);
 		//the clang option is relative to the indented body,
 		//while the preferences is relative to the "class" indentation
 		style += styleOption("AccessModifierOffset",
