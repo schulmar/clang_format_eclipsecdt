@@ -124,8 +124,7 @@ public class Formatter extends CodeFormatter {
 		// TODO: test all referenced and trigger error on inconsistent result
 		style += styleOption("SpacesInCStyleCastParentheses",
 				preferences.insert_space_after_opening_paren_in_cast);
-		// TODO: too many affected options: style +=
-		// styleOption("SpacesInParentheses",);
+		style += styleOption(Preferences.SPACES_IN_PARENTHESES);
 		style += styleOption(Preferences.STANDARD);
 		style += styleOption("TabWidth", preferences.tab_size);
 		switch (preferences.tab_char) {
