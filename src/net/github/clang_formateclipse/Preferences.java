@@ -26,4 +26,6 @@ public class Preferences {
 	public static final String CPP11_BRACED_LIST_STYLE = "Cpp11BracedListStyle";
 	public static final String DERIVE_POINTER_BINDING = "DerivePointerBinding";
 	public static final String INDENT_FUNCTION_DECLARATION_AFTER_TYPE = "IndentFunctionDeclarationAfterType";
+	//TODO: public static final String PENALTY_BREAK_COMMENT = "PenaltyBreakComment";
+	public static final String POINTER_BINDS_TO_TYPE = "PointerBindsToType";
 }

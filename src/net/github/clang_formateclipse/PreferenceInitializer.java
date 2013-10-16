@@ -31,6 +31,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(Preferences.CPP11_BRACED_LIST_STYLE, Preferences.NONE);
 		store.setDefault(Preferences.DERIVE_POINTER_BINDING, Preferences.NONE);
 		store.setDefault(Preferences.INDENT_FUNCTION_DECLARATION_AFTER_TYPE, Preferences.NONE);
+		//store.setDefault(Preferences.PENALTY_BREAK_COMMENT, 0);
+		store.setDefault(Preferences.POINTER_BINDS_TO_TYPE, Preferences.NONE);
 	}
 
 }

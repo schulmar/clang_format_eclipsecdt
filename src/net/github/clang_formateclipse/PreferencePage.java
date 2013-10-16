@@ -52,8 +52,17 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		addField(triStateBooleanFieldEditor(Preferences.CPP11_BRACED_LIST_STYLE, "C++11 braced list style", composite));
 		addField(triStateBooleanFieldEditor(Preferences.DERIVE_POINTER_BINDING, "Derive pointer binding", composite));
 		addField(triStateBooleanFieldEditor(Preferences.INDENT_FUNCTION_DECLARATION_AFTER_TYPE, "Indent function declaration after type", composite));
+		//TODO:addField(unsignedFieldEditor(Preferences.PENALTY_BREAK_COMMENT, "Penalty \"break comment\"", composite));
+		addField(triStateBooleanFieldEditor(Preferences.POINTER_BINDS_TO_TYPE, "Pointer binds to type", composite));
 	}
 
+	IntegerFieldEditor unsignedFieldEditor(String name, String label, Composite parent)
+	{
+		IntegerFieldEditor fi = new IntegerFieldEditor(name, label, parent);
+		fi.setValidRange(0, Integer.MAX_VALUE);
+		return fi;
+	}
+	
 	ComboFieldEditor triStateBooleanFieldEditor(String name, String label, Composite parent)
 	{
 		return new ComboFieldEditor(name, label,
