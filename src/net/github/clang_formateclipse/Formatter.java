@@ -86,7 +86,7 @@ public class Formatter extends CodeFormatter {
 		style += styleOption(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS);
 		style += styleOption(Preferences.BIN_PACK_PARAMETERS);
 		style += styleOption(Preferences.BREAK_BEFORE_BINARY_OPERATORS);
-		// TODO: style += styleOption("BreakBeforeBraces", );
+		style += styleOption(Preferences.BREAK_BEFORE_BRACES);
 		// TODO: style += styleOption("BreakConstructorInitializersBeforeComma",
 		// );
 		style += styleOption("ColumnLimit", preferences.page_width);

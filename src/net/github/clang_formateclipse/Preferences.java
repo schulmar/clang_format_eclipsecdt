@@ -19,4 +19,5 @@ public class Preferences {
 	public static final String ALWAYS_BREAK_TEMPLATE_DECLARATIONS = "AlwaysBreakTemplateDeclarations";
 	public static final String BIN_PACK_PARAMETERS = "BinPackParameters"; 
 	public static final String BREAK_BEFORE_BINARY_OPERATORS = "BreakBeforeBinaryOperators";
+	public static final String BREAK_BEFORE_BRACES = "BreakBeforeBraces";
 }

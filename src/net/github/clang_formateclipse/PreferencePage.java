@@ -1,6 +1,5 @@
 package net.github.clang_formateclipse;
 
-import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
@@ -45,6 +44,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		addField(triStateBooleanFieldEditor(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS, "Always break template declarations", composite));
 		addField(triStateBooleanFieldEditor(Preferences.BIN_PACK_PARAMETERS, "BinPackParameters", composite));
 		addField(triStateBooleanFieldEditor(Preferences.BREAK_BEFORE_BINARY_OPERATORS, "Break before binary operators", composite));
+		addField(triStateBooleanFieldEditor(Preferences.BREAK_BEFORE_BRACES, "Break before braces", composite));
 	}
 
 	ComboFieldEditor triStateBooleanFieldEditor(String name, String label, Composite parent)
