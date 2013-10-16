@@ -91,7 +91,7 @@ public class Formatter extends CodeFormatter {
 		style += styleOption("ColumnLimit", preferences.page_width);
 		style += styleOption(Preferences.CONSTRUCTOR_INITIALIZER_ALL_ON_ONE_LINE_OR_ONE_PER_LINE);
 		style += intStyleOption(Preferences.CONSTRUCTOR_INITIALIZER_INDENT_WIDTH);
-		// TODO: style += styleOption("Cpp11BracedListStyle", );
+		style += styleOption(Preferences.CPP11_BRACED_LIST_STYLE);
 		// TODO: style += styleOption("DerivePointerBinding", );
 		// TODO: is this correct?
 		style += styleOption("IndentCaseLabels",

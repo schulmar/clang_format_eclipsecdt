@@ -28,6 +28,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(Preferences.BREAK_CONSTRUCTOR_INITIALIZERS_BEFORE_COMMA, Preferences.NONE);
 		store.setDefault(Preferences.CONSTRUCTOR_INITIALIZER_ALL_ON_ONE_LINE_OR_ONE_PER_LINE, Preferences.NONE);
 		store.setDefault(Preferences.CONSTRUCTOR_INITIALIZER_INDENT_WIDTH, Preferences.NONE);
+		store.setDefault(Preferences.CPP11_BRACED_LIST_STYLE, Preferences.NONE);
 	}
 
 }
