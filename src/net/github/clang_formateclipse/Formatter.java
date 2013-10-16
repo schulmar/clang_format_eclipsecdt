@@ -89,8 +89,7 @@ public class Formatter extends CodeFormatter {
 		style += styleOption(Preferences.BREAK_BEFORE_BRACES);
 		style += styleOption(Preferences.BREAK_CONSTRUCTOR_INITIALIZERS_BEFORE_COMMA);
 		style += styleOption("ColumnLimit", preferences.page_width);
-		// TODO: style +=
-		// styleOption("ConstructorInitializerAllOnOneLineOrOnePerLine", );
+		style += styleOption(Preferences.CONSTRUCTOR_INITIALIZER_ALL_ON_ONE_LINE_OR_ONE_PER_LINE);
 		// TODO:style += styleOption("ConstructorInitializerIndentWidth",);
 		// TODO: style += styleOption("Cpp11BracedListStyle", );
 		// TODO: style += styleOption("DerivePointerBinding", );
