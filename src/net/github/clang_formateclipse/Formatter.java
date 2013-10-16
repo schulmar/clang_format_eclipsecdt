@@ -115,10 +115,7 @@ public class Formatter extends CodeFormatter {
 				preferences.insert_space_before_opening_paren_in_for);
 		style += styleOption("SpaceBeforeAssignmentOperators",
 				preferences.insert_space_before_assignment_operator);
-		// TODO: test all referenced and trigger error on inconsistent result
-		style += styleOption(
-				"SpaceInEmptyParentheses",
-				preferences.insert_space_between_empty_parens_in_method_invocation);
+		style += styleOption(Preferences.SPACE_IN_EMPTY_PARENTHESES);
 		style += styleOption("SpacesBeforeTrailingComments",
 				preferences.comment_min_distance_between_code_and_line_comment);
 		style += styleOption(Preferences.SPACES_IN_CSTYLE_CAST_PARENTHESES);

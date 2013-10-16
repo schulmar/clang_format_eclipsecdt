@@ -33,6 +33,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(Preferences.INDENT_FUNCTION_DECLARATION_AFTER_TYPE, Preferences.NONE);
 		//store.setDefault(Preferences.PENALTY_BREAK_COMMENT, 0);
 		store.setDefault(Preferences.POINTER_BINDS_TO_TYPE, Preferences.NONE);
+		store.setDefault(Preferences.SPACE_IN_EMPTY_PARENTHESES, Preferences.NONE);
 		store.setDefault(Preferences.SPACES_IN_CSTYLE_CAST_PARENTHESES, Preferences.NONE);
 		store.setDefault(Preferences.SPACES_IN_PARENTHESES, Preferences.NONE);
 		store.setDefault(Preferences.STANDARD, Preferences.NONE);

@@ -28,8 +28,9 @@ public class Preferences {
 	public static final String INDENT_FUNCTION_DECLARATION_AFTER_TYPE = "IndentFunctionDeclarationAfterType";
 	//TODO: public static final String PENALTY_BREAK_COMMENT = "PenaltyBreakComment";
 	public static final String POINTER_BINDS_TO_TYPE = "PointerBindsToType";
-	public static final String SPACES_IN_PARENTHESES = "SpacesInParentheses";
+	public static final String SPACE_IN_EMPTY_PARENTHESES = "SpaceInEmptyParentheses";
 	public static final String SPACES_IN_CSTYLE_CAST_PARENTHESES = "SpacesInCStyleCastParentheses";
+	public static final String SPACES_IN_PARENTHESES = "SpacesInParentheses";
 	public static final String STANDARD = "Standard";
 	public static final String STANDARD_CPP03 = "Cpp03";
 	public static final String STANDARD_CPP11 = "Cpp11";
