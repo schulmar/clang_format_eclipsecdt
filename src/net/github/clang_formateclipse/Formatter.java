@@ -150,11 +150,6 @@ public class Formatter extends CodeFormatter {
 	private String styleOption(String name, String value) {
 		return styleOption(name, value, false);
 	}
-
-	private String booleanStyleOption(String prefName)
-	{
-		return styleOption(prefName, Activator.getDefault().getPreferenceStore().getBoolean(prefName));
-	}
 	
 	private String styleOption(String prefName)
 	{
