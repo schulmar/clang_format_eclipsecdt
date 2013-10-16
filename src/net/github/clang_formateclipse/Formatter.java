@@ -77,17 +77,17 @@ public class Formatter extends CodeFormatter {
 		style += styleOption("AccessModifierOffset",
 				preferences.indent_access_specifier_extra_spaces
 				- preferences.indentation_size);
-		style += booleanStyleOption(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT);
+		style += styleOption(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT);
 		style += styleOption(
 				"AlignTrailingComments",
 				preferences.comment_preserve_white_space_between_code_and_line_comment);
-		style += booleanStyleOption(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE);
+		style += styleOption(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE);
 		style += styleOption("AllowShortIfStatementsOnASingleLine",
 				preferences.keep_simple_if_on_one_line);
-		style += booleanStyleOption(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE);
-		style += booleanStyleOption(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS);
-		style += booleanStyleOption(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS);
-		style += booleanStyleOption(Preferences.BIN_PACK_PARAMETERS);
+		style += styleOption(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE);
+		style += styleOption(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS);
+		style += styleOption(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS);
+		style += styleOption(Preferences.BIN_PACK_PARAMETERS);
 		// TODO: style += styleOption("BreakBeforeBinaryOperators", );
 		// TODO: style += styleOption("BreakBeforeBraces", );
 		// TODO: style += styleOption("BreakConstructorInitializersBeforeComma",

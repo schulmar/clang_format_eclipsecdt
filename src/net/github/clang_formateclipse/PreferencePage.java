@@ -38,14 +38,24 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 						{ "Mozilla", Preferences.STYLE_MOZILLA },
 						{ "clang-format's default", Preferences.STYLE_NONE }, }, 
 				composite));
-		addField(new BooleanFieldEditor(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, "Allow all parameters of a declaration to be wrapped to the next line", composite));
-		addField(new BooleanFieldEditor(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT, "Align escaped newlines", composite));
-		addField(new BooleanFieldEditor(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE, "Allow short loops on a single line", composite));
-		addField(new BooleanFieldEditor(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS, "Always break on multiline strings", composite));
-		addField(new BooleanFieldEditor(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS, "Always break template declarations", composite));
-		addField(new BooleanFieldEditor(Preferences.BIN_PACK_PARAMETERS, "BinPackParameters", composite));
+		addField(triStateBooleanFieldEditor(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, "Allow all parameters of a declaration to be wrapped to the next line", composite));
+		addField(triStateBooleanFieldEditor(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT, "Align escaped newlines", composite));
+		addField(triStateBooleanFieldEditor(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE, "Allow short loops on a single line", composite));
+		addField(triStateBooleanFieldEditor(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS, "Always break on multiline strings", composite));
+		addField(triStateBooleanFieldEditor(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS, "Always break template declarations", composite));
+		addField(triStateBooleanFieldEditor(Preferences.BIN_PACK_PARAMETERS, "BinPackParameters", composite));
 	}
 
+	ComboFieldEditor triStateBooleanFieldEditor(String name, String label, Composite parent)
+	{
+		return new ComboFieldEditor(name, label,
+				new String[][] {
+					{"default", Preferences.NONE},
+					{"on", Preferences.TRUE},
+					{"off", Preferences.FALSE}
+				}
+				, parent);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

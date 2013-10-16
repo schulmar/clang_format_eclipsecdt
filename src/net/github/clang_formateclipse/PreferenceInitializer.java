@@ -17,12 +17,12 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(Preferences.STYLE_CHOICE, Preferences.STYLE_NONE);
 		store.setDefault(Preferences.CLANG_FORMAT_PATH, "/usr/bin/clang-format");
-		store.setDefault(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, false);
-		store.setDefault(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT, true);
-		store.setDefault(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE, true);
-		store.setDefault(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS, false);
-		store.setDefault(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS, false);
-		store.setDefault(Preferences.BIN_PACK_PARAMETERS, true);
+		store.setDefault(Preferences.ALLOW_ALL_PARAMETERS_OF_DECLARATION_ON_NEXT_LINE, Preferences.NONE);
+		store.setDefault(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT, Preferences.NONE);
+		store.setDefault(Preferences.ALLOW_SHORT_LOOPS_ON_A_SINGLE_LINE, Preferences.NONE);
+		store.setDefault(Preferences.ALWAYS_BREAK_BEFORE_MULTILINE_STRINGS, Preferences.NONE);
+		store.setDefault(Preferences.ALWAYS_BREAK_TEMPLATE_DECLARATIONS, Preferences.NONE);
+		store.setDefault(Preferences.BIN_PACK_PARAMETERS, Preferences.NONE);
 	}
 
 }
