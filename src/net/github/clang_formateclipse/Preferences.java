@@ -1,6 +1,10 @@
 package net.github.clang_formateclipse;
 
 public class Preferences {
+	public static final String NONE = null;
+	public static final String TRUE = "true";
+	public static final String FALSE = "false";
+	
 	public static final String STYLE_CHOICE = "styleChoice";
 	public static final String STYLE_LLVM = "LLVM";
 	public static final String STYLE_GOOGLE = "Google";
