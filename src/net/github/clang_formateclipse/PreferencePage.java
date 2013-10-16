@@ -54,6 +54,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		addField(triStateBooleanFieldEditor(Preferences.INDENT_FUNCTION_DECLARATION_AFTER_TYPE, "Indent function declaration after type", composite));
 		//TODO:addField(unsignedFieldEditor(Preferences.PENALTY_BREAK_COMMENT, "Penalty \"break comment\"", composite));
 		addField(triStateBooleanFieldEditor(Preferences.POINTER_BINDS_TO_TYPE, "Pointer binds to type", composite));
+		addField(triStateBooleanFieldEditor(Preferences.SPACES_IN_CSTYLE_CAST_PARENTHESES, "Spaces in C-style cast parantheses", composite));
 		addField(triStateBooleanFieldEditor(Preferences.SPACES_IN_PARENTHESES, "Spaces in parantheses", composite));
 		addField(new ComboFieldEditor(Preferences.STANDARD, "Standard", 
 				new String[][] {

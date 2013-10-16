@@ -121,9 +121,7 @@ public class Formatter extends CodeFormatter {
 				preferences.insert_space_between_empty_parens_in_method_invocation);
 		style += styleOption("SpacesBeforeTrailingComments",
 				preferences.comment_min_distance_between_code_and_line_comment);
-		// TODO: test all referenced and trigger error on inconsistent result
-		style += styleOption("SpacesInCStyleCastParentheses",
-				preferences.insert_space_after_opening_paren_in_cast);
+		style += styleOption(Preferences.SPACES_IN_CSTYLE_CAST_PARENTHESES);
 		style += styleOption(Preferences.SPACES_IN_PARENTHESES);
 		style += styleOption(Preferences.STANDARD);
 		style += styleOption("TabWidth", preferences.tab_size);
