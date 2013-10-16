@@ -92,7 +92,7 @@ public class Formatter extends CodeFormatter {
 		style += styleOption(Preferences.CONSTRUCTOR_INITIALIZER_ALL_ON_ONE_LINE_OR_ONE_PER_LINE);
 		style += intStyleOption(Preferences.CONSTRUCTOR_INITIALIZER_INDENT_WIDTH);
 		style += styleOption(Preferences.CPP11_BRACED_LIST_STYLE);
-		// TODO: style += styleOption("DerivePointerBinding", );
+		style += styleOption(Preferences.DERIVE_POINTER_BINDING);
 		// TODO: is this correct?
 		style += styleOption("IndentCaseLabels",
 				preferences.indent_switchstatements_compare_to_switch);

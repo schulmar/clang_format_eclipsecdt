@@ -50,6 +50,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		addField(triStateBooleanFieldEditor(Preferences.CONSTRUCTOR_INITIALIZER_ALL_ON_ONE_LINE_OR_ONE_PER_LINE, "Constructor initializer all on one line or one per line", composite));
 		addField(new IntegerFieldEditor(Preferences.CONSTRUCTOR_INITIALIZER_INDENT_WIDTH, "Constructor initializer indent width", composite));
 		addField(triStateBooleanFieldEditor(Preferences.CPP11_BRACED_LIST_STYLE, "C++11 braced list style", composite));
+		addField(triStateBooleanFieldEditor(Preferences.DERIVE_POINTER_BINDING, "Derive pointer binding", composite));
 	}
 
 	ComboFieldEditor triStateBooleanFieldEditor(String name, String label, Composite parent)
