@@ -93,7 +93,6 @@ public class Formatter extends CodeFormatter {
 		style += intStyleOption(Preferences.CONSTRUCTOR_INITIALIZER_INDENT_WIDTH);
 		style += styleOption(Preferences.CPP11_BRACED_LIST_STYLE);
 		style += styleOption(Preferences.DERIVE_POINTER_BINDING);
-		// TODO: is this correct?
 		style += styleOption("IndentCaseLabels",
 				preferences.indent_switchstatements_compare_to_switch);
 		style += styleOption(Preferences.INDENT_FUNCTION_DECLARATION_AFTER_TYPE);
