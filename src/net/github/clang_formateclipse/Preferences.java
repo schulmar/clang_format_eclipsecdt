@@ -22,4 +22,5 @@ public class Preferences {
 	public static final String BREAK_BEFORE_BRACES = "BreakBeforeBraces";
 	public static final String BREAK_CONSTRUCTOR_INITIALIZERS_BEFORE_COMMA = "BreakConstructorInitializersBeforeComma";
 	public static final String CONSTRUCTOR_INITIALIZER_ALL_ON_ONE_LINE_OR_ONE_PER_LINE = "ConstructorInitializerAllOnOneLineOrOnePerLine";
+	public static final String CONSTRUCTOR_INITIALIZER_INDENT_WIDTH = "ConstructorInitializerIndentWidth";
 }

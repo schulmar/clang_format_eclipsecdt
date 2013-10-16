@@ -90,7 +90,7 @@ public class Formatter extends CodeFormatter {
 		style += styleOption(Preferences.BREAK_CONSTRUCTOR_INITIALIZERS_BEFORE_COMMA);
 		style += styleOption("ColumnLimit", preferences.page_width);
 		style += styleOption(Preferences.CONSTRUCTOR_INITIALIZER_ALL_ON_ONE_LINE_OR_ONE_PER_LINE);
-		// TODO:style += styleOption("ConstructorInitializerIndentWidth",);
+		style += intStyleOption(Preferences.CONSTRUCTOR_INITIALIZER_INDENT_WIDTH);
 		// TODO: style += styleOption("Cpp11BracedListStyle", );
 		// TODO: style += styleOption("DerivePointerBinding", );
 		// TODO: is this correct?
@@ -144,6 +144,11 @@ public class Formatter extends CodeFormatter {
 
 	private String styleOption(String name, String value) {
 		return styleOption(name, value, false);
+	}
+	
+	private String intStyleOption(String prefName)
+	{
+		return styleOption(prefName, Activator.getDefault().getPreferenceStore().getInt(prefName));
 	}
 	
 	private String styleOption(String prefName)

@@ -3,6 +3,7 @@ package net.github.clang_formateclipse;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -47,6 +48,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		addField(triStateBooleanFieldEditor(Preferences.BREAK_BEFORE_BRACES, "Break before braces", composite));
 		addField(triStateBooleanFieldEditor(Preferences.BREAK_CONSTRUCTOR_INITIALIZERS_BEFORE_COMMA, "Break constructor initializers before comma", composite));
 		addField(triStateBooleanFieldEditor(Preferences.CONSTRUCTOR_INITIALIZER_ALL_ON_ONE_LINE_OR_ONE_PER_LINE, "Constructor initializer all on one line or one per line", composite));
+		addField(new IntegerFieldEditor(Preferences.CONSTRUCTOR_INITIALIZER_INDENT_WIDTH, "Constructor initializer indent width", composite));
 	}
 
 	ComboFieldEditor triStateBooleanFieldEditor(String name, String label, Composite parent)
