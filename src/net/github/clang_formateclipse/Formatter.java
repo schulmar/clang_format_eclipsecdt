@@ -156,6 +156,15 @@ public class Formatter extends CodeFormatter {
 		return styleOption(prefName, Activator.getDefault().getPreferenceStore().getBoolean(prefName));
 	}
 	
+	private String styleOption(String prefName)
+	{
+		String f = Activator.getDefault().getPreferenceStore().getString(prefName);
+		if(f != null)
+			return styleOption(prefName, f);
+		else
+			return null;
+	}
+	
 	private String styleOption(String name, String value, boolean last) {
 		return String.format("%s: %s" + (last ? "" : ", "), name, value);
 	}
