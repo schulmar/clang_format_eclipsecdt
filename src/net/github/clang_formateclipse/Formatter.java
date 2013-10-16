@@ -154,10 +154,10 @@ public class Formatter extends CodeFormatter {
 	private String styleOption(String prefName)
 	{
 		String f = Activator.getDefault().getPreferenceStore().getString(prefName);
-		if(f != null)
-			return styleOption(prefName, f);
+		if(f.isEmpty())
+			return "";
 		else
-			return null;
+			return styleOption(prefName, f);
 	}
 	
 	private String styleOption(String name, String value, boolean last) {

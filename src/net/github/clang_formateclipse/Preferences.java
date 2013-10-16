@@ -1,7 +1,7 @@
 package net.github.clang_formateclipse;
 
 public class Preferences {
-	public static final String NONE = null;
+	public static final String NONE = "";
 	public static final String TRUE = "true";
 	public static final String FALSE = "false";
 	
