@@ -126,7 +126,7 @@ public class Formatter extends CodeFormatter {
 				preferences.insert_space_after_opening_paren_in_cast);
 		// TODO: too many affected options: style +=
 		// styleOption("SpacesInParentheses",);
-		// TODO: style += styleOption("Standard", );
+		style += styleOption(Preferences.STANDARD);
 		style += styleOption("TabWidth", preferences.tab_size);
 		switch (preferences.tab_char) {
 		case DefaultCodeFormatterOptions.TAB:
