@@ -45,6 +45,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		addField(triStateBooleanFieldEditor(Preferences.BIN_PACK_PARAMETERS, "BinPackParameters", composite));
 		addField(triStateBooleanFieldEditor(Preferences.BREAK_BEFORE_BINARY_OPERATORS, "Break before binary operators", composite));
 		addField(triStateBooleanFieldEditor(Preferences.BREAK_BEFORE_BRACES, "Break before braces", composite));
+		addField(triStateBooleanFieldEditor(Preferences.BREAK_CONSTRUCTOR_INITIALIZERS_BEFORE_COMMA, "Break constructor initializers before comma", composite));
 	}
 
 	ComboFieldEditor triStateBooleanFieldEditor(String name, String label, Composite parent)

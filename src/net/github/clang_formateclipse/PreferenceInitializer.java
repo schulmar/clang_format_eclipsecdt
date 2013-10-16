@@ -25,6 +25,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(Preferences.BIN_PACK_PARAMETERS, Preferences.NONE);
 		store.setDefault(Preferences.BREAK_BEFORE_BINARY_OPERATORS, Preferences.NONE);
 		store.setDefault(Preferences.BREAK_BEFORE_BRACES, Preferences.NONE);
+		store.setDefault(Preferences.BREAK_CONSTRUCTOR_INITIALIZERS_BEFORE_COMMA, Preferences.NONE);
 	}
 
 }

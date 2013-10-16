@@ -20,4 +20,5 @@ public class Preferences {
 	public static final String BIN_PACK_PARAMETERS = "BinPackParameters"; 
 	public static final String BREAK_BEFORE_BINARY_OPERATORS = "BreakBeforeBinaryOperators";
 	public static final String BREAK_BEFORE_BRACES = "BreakBeforeBraces";
+	public static final String BREAK_CONSTRUCTOR_INITIALIZERS_BEFORE_COMMA = "BreakConstructorInitializersBeforeComma";
 }

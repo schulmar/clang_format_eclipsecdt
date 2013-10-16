@@ -87,8 +87,7 @@ public class Formatter extends CodeFormatter {
 		style += styleOption(Preferences.BIN_PACK_PARAMETERS);
 		style += styleOption(Preferences.BREAK_BEFORE_BINARY_OPERATORS);
 		style += styleOption(Preferences.BREAK_BEFORE_BRACES);
-		// TODO: style += styleOption("BreakConstructorInitializersBeforeComma",
-		// );
+		style += styleOption(Preferences.BREAK_CONSTRUCTOR_INITIALIZERS_BEFORE_COMMA);
 		style += styleOption("ColumnLimit", preferences.page_width);
 		// TODO: style +=
 		// styleOption("ConstructorInitializerAllOnOneLineOrOnePerLine", );
