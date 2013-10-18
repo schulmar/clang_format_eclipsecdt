@@ -33,13 +33,13 @@ public class Formatter extends CodeFormatter {
 		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
 		Runtime RT = Runtime.getRuntime();
 		String target = "", err = "";
-		try {
-			String[] args = {
+		String[] args = {
 				prefs.getString(Preferences.CLANG_FORMAT_PATH),
 				String.format("-offset=%d", offset),
 				String.format("-length=%d", length),
 				createOptions()
 			};
+		try {
 			Process subProc = RT.exec(args);
 			InputStream inStream = subProc.getInputStream();
 			OutputStream outStream = subProc.getOutputStream();
@@ -60,7 +60,8 @@ public class Formatter extends CodeFormatter {
 			Logger.logError(exception);
 		}
 		if(!err.isEmpty())
-			Logger.logError(err, new ClangFormatError());
+			Logger.logError(String.format("Error on calling %s: %s", Arrays.toString(args), err), 
+							new ClangFormatError());
 		if(!target.isEmpty())
 		{
 			int textOffset = 0;
