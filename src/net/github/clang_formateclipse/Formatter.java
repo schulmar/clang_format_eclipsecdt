@@ -32,7 +32,7 @@ public class Formatter extends CodeFormatter {
 			int indentationLevel, String lineSeparator) {
 		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
 		Runtime RT = Runtime.getRuntime();
-		String target = "";
+		String target = "", err = "";
 		try {
 			String[] args = {
 				prefs.getString(Preferences.CLANG_FORMAT_PATH),
@@ -54,16 +54,22 @@ public class Formatter extends CodeFormatter {
 			reader = new InputStreamReader(subProc.getErrorStream());
 			br = new BufferedReader(reader);
 			while ((line = br.readLine()) != null) {
-				System.err.println(line);
+				err += line + lineSeparator;
 			}
 		} catch (IOException exception) {
-			System.out.print(exception.getMessage());
+			Logger.logError(exception);
 		}
-		int textOffset = 0;
-		int textLength = source.length();
-		MultiTextEdit textEdit = new MultiTextEdit(textOffset, textLength);
-		textEdit.addChild(new ReplaceEdit(textOffset, textLength, target));
-		return textEdit;
+		if(!err.isEmpty())
+			Logger.logError(err, new ClangFormatError());
+		if(!target.isEmpty())
+		{
+			int textOffset = 0;
+			int textLength = source.length();
+			MultiTextEdit textEdit = new MultiTextEdit(textOffset, textLength);
+			textEdit.addChild(new ReplaceEdit(textOffset, textLength, target));
+			return textEdit;
+		}
+		return null;
 	}
 
 	public String createOptions() {
