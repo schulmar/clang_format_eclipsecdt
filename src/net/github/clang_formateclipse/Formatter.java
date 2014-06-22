@@ -2,7 +2,6 @@ package net.github.clang_formateclipse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -10,13 +9,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.cdt.core.CCorePlugin;
 import org.eclipse.cdt.core.formatter.CodeFormatter;
 import org.eclipse.cdt.core.formatter.DefaultCodeFormatterOptions;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.text.edits.MultiTextEdit;
-import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.xml.sax.SAXException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 
 public class Formatter extends CodeFormatter {
 	private DefaultCodeFormatterOptions preferences;
@@ -32,42 +32,63 @@ public class Formatter extends CodeFormatter {
 			int indentationLevel, String lineSeparator) {
 		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
 		Runtime RT = Runtime.getRuntime();
-		String target = "", err = "";
-		String[] args = {
-				prefs.getString(Preferences.CLANG_FORMAT_PATH),
+		String err = "";
+		String[] args = { prefs.getString(Preferences.CLANG_FORMAT_PATH),
 				String.format("-offset=%d", offset),
 				String.format("-length=%d", length),
-				createOptions()
-			};
+				"-output-replacements-xml", createOptions() };
+		Process subProc;
 		try {
-			Process subProc = RT.exec(args);
-			InputStream inStream = subProc.getInputStream();
-			OutputStream outStream = subProc.getOutputStream();
+			subProc = RT.exec(args);
+		} catch (IOException exception) {
+			Logger.logError("Could not exec command", exception);
+			return null;
+		}
+		OutputStream outStream = subProc.getOutputStream();
+		try {
 			outStream.write(source.getBytes(Charset.forName("UTF-8")));
 			outStream.close();
-			InputStreamReader reader = new InputStreamReader(inStream);
-			BufferedReader br = new BufferedReader(reader);
-			String line = null;
-			while ((line = br.readLine()) != null) {
-				target += line + lineSeparator;
-			}
-			reader = new InputStreamReader(subProc.getErrorStream());
-			br = new BufferedReader(reader);
+		} catch (IOException exception) {
+			Logger.logError("Could not send command", exception);
+			return null;
+		}
+		// read errors
+		String line = null;
+		InputStreamReader reader = new InputStreamReader(
+				subProc.getErrorStream());
+		BufferedReader br = new BufferedReader(reader);
+		try {
 			while ((line = br.readLine()) != null) {
 				err += line + lineSeparator;
 			}
 		} catch (IOException exception) {
 			Logger.logError(exception);
 		}
-		if(!err.isEmpty())
-			Logger.logError(String.format("Error on calling %s: %s", Arrays.toString(args), err), 
-							new ClangFormatError());
-		if(!target.isEmpty())
-		{
+		XMLReplacementHandler replacementHandler = new XMLReplacementHandler();
+		try {
+			// read the edits
+			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+			parserFactory.newSAXParser().parse(subProc.getInputStream(),
+					replacementHandler);
+		} catch (IOException exception) {
+			Logger.logError(exception);
+		} catch (SAXException exception) {
+			Logger.logError(exception);
+		} catch (ParserConfigurationException exception) {
+			Logger.logError(exception);
+		}
+
+		if (!err.isEmpty()) {
+			Logger.logError(
+					String.format("Error on calling %s: %s",
+							Arrays.toString(args), err), new ClangFormatError());
+		} else {
 			int textOffset = 0;
 			int textLength = source.length();
 			MultiTextEdit textEdit = new MultiTextEdit(textOffset, textLength);
-			textEdit.addChild(new ReplaceEdit(textOffset, textLength, target));
+			TextEdit edits[] = new TextEdit[0];
+			edits = replacementHandler.getEdits().toArray(edits);
+			textEdit.addChildren(edits);
 			return textEdit;
 		}
 		return null;
@@ -76,11 +97,11 @@ public class Formatter extends CodeFormatter {
 	public String createOptions() {
 		String style = "";
 		style += styleOption(Preferences.BASED_ON_STYLE);
-		//the clang option is relative to the indented body,
-		//while the preferences is relative to the "class" indentation
+		// the clang option is relative to the indented body,
+		// while the preferences is relative to the "class" indentation
 		style += styleOption("AccessModifierOffset",
 				preferences.indent_access_specifier_extra_spaces
-				- preferences.indentation_size);
+						- preferences.indentation_size);
 		style += styleOption(Preferences.ALIGN_ESCAPED_NEWLINES_LEFT);
 		style += styleOption(
 				"AlignTrailingComments",
@@ -143,21 +164,21 @@ public class Formatter extends CodeFormatter {
 	private String styleOption(String name, String value) {
 		return styleOption(name, value, false);
 	}
-	
-	private String intStyleOption(String prefName)
-	{
-		return styleOption(prefName, Activator.getDefault().getPreferenceStore().getInt(prefName));
+
+	private String intStyleOption(String prefName) {
+		return styleOption(prefName, Activator.getDefault()
+				.getPreferenceStore().getInt(prefName));
 	}
-	
-	private String styleOption(String prefName)
-	{
-		String f = Activator.getDefault().getPreferenceStore().getString(prefName);
-		if(f.isEmpty())
+
+	private String styleOption(String prefName) {
+		String f = Activator.getDefault().getPreferenceStore()
+				.getString(prefName);
+		if (f.isEmpty())
 			return "";
 		else
 			return styleOption(prefName, f);
 	}
-	
+
 	private String styleOption(String name, String value, boolean last) {
 		return String.format("%s: %s" + (last ? "" : ", "), name, value);
 	}
