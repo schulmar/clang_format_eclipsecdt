@@ -1,8 +1,8 @@
 package net.github.clang_formateclipse;
 
 import org.eclipse.swt.widgets.Composite;
-
 import org.eclipse.jface.preference.FieldEditor;
+import org.eclipse.jface.preference.IPreferenceStore;
 
 public abstract class FormatOption {
 	
@@ -27,4 +27,6 @@ public abstract class FormatOption {
 	 * @return
 	 */
 	abstract FieldEditor getFieldEditor(Composite parent);
+	
+	abstract String getValueString(IPreferenceStore preferenceStore);
 }

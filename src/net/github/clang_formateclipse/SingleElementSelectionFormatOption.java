@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
+import org.eclipse.jface.preference.IPreferenceStore;
 
 public class SingleElementSelectionFormatOption extends FormatOption {
 
@@ -22,6 +23,11 @@ public class SingleElementSelectionFormatOption extends FormatOption {
 	FieldEditor getFieldEditor(Composite parent) {
 		return new ComboFieldEditor(getOptionName(), getOptionDescription(),
 				elements, parent);
+	}
+
+	@Override
+	String getValueString(IPreferenceStore preferenceStore) {
+		return preferenceStore.getString(getOptionName());
 	}
 
 }

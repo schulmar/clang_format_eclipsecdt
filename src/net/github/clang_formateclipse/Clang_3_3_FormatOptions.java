@@ -12,8 +12,9 @@ public class Clang_3_3_FormatOptions extends ClangVersionOptions {
 	}
 
 	@Override
-	String[] getStyles() {
-		return new String[] { "LLVM", "Google", "Chromium" };
+	String[][] getStyles() {
+		return new String[][] { { "LLVM", "LLVM" }, { "Google", "Google" },
+				{ "Chromium", "Chromium" }};
 	}
 
 }

@@ -27,5 +27,5 @@ public abstract class ClangVersionOptions {
 
 	abstract FormatOption[] getFormatOptions();
 
-	abstract String[] getStyles();
+	abstract String[][] getStyles();
 }

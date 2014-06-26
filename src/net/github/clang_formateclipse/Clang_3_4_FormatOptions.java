@@ -11,10 +11,10 @@ public class Clang_3_4_FormatOptions extends ClangVersionOptions {
 				new SingleElementSelectionFormatOption(
 						"BasedOnStyle",
 						"The style used for all options not specifically set in the configuration.",
-						new String[][] { { "LLVM", Preferences.STYLE_LLVM },
-								{ "Google", Preferences.STYLE_GOOGLE },
-								{ "Chromium", Preferences.STYLE_CHROMIUM },
-								{ "Mozilla", Preferences.STYLE_MOZILLA } }),
+						new String[][] { { "LLVM", "LLVM" },
+								{ "Google", "Google" },
+								{ "Chromium", "Chromium" },
+								{ "Mozilla", "Mozilla" } }),
 				new IntegerFormatOption("AccessModifierOffset",
 						"The extra indent or outdent of access modifiers, e.g. public:."),
 				new BooleanFormatOption(
@@ -146,8 +146,10 @@ public class Clang_3_4_FormatOptions extends ClangVersionOptions {
 	}
 
 	@Override
-	String[] getStyles() {
-		return new String[] { "LLVM", "Google", "Chromium", "Mozilla", "WebKit" };
+	String[][] getStyles() {
+		return new String[][] { { "LLVM", "LLVM" }, { "Google", "Google" },
+				{ "Chromium", "Chromium" }, { "Mozilla", "Mozilla" },
+				{ "WebKit", "WebKit" } };
 	}
 
 }
