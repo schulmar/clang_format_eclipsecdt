@@ -1,19 +1,24 @@
 package net.github.clang_formateclipse;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class PreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {
 
+	private List<FieldEditor> dependentFieldEditors;
+	
 	public PreferencePage() {
 		super(GRID);
+		dependentFieldEditors = new ArrayList<FieldEditor>();
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription("Setting for code formatting (engine is clang-format)");
 	}
@@ -24,12 +29,24 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 	 * editor knows how to save and restore itself.
 	 */
 	public void createFieldEditors() {
+		FileFieldEditor clangFormatPathEditor = new FileFieldEditor(
+				Preferences.CLANG_FORMAT_PATH, "Path to clang-format",
+				getFieldEditorParent());
+		addField(clangFormatPathEditor);
+		ClangVersion clangVersion;
+		try {
+			clangVersion = ClangVersion.fromExecutable(getPreferenceStore().getString(Preferences.CLANG_FORMAT_PATH));
+		} catch (ClangVersionError e1) {
+			Logger.logError(e1);
+			clangFormatPathEditor
+					.setErrorMessage("Could not determine clang-format version: "
+							+ e1.getMessage());
+			return;
+		}
+		createVersionDependandFieldEditors(clangVersion);
+	}
 
-		Composite composite = getFieldEditorParent();
-		addField(new FileFieldEditor(Preferences.CLANG_FORMAT_PATH,
-				"Path to clang-format", composite));
-		// TODO: determine the version from the program path
-		ClangVersion clangVersion = new ClangVersion(3, 4);
+	private void createVersionDependandFieldEditors(ClangVersion clangVersion) {
 		ClangVersionOptions versionOptions = null;
 		try {
 			versionOptions = ClangVersionOptions
@@ -38,12 +55,21 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 			Logger.logError(e);
 			return;
 		}
-		getPreferenceStore().setValue(Preferences.MAJOR_VERSION, clangVersion.getMajor());
-		getPreferenceStore().setValue(Preferences.MINOR_VERSION, clangVersion.getMinor());
+		createOptionsForVersion(clangVersion, versionOptions);
+	}
+	
+	public void createOptionsForVersion(ClangVersion clangVersion,
+			ClangVersionOptions versionOptions) {
+		getPreferenceStore().setValue(Preferences.MAJOR_VERSION,
+				clangVersion.getMajor());
+		getPreferenceStore().setValue(Preferences.MINOR_VERSION,
+				clangVersion.getMinor());
 		if (clangVersion == new ClangVersion(3, 3)) {
 			// version 3.3 only supports preset style
-			addField(new ComboFieldEditor("style", "Style preset",
-					versionOptions.getStyles(), composite));
+			ComboFieldEditor styleSelector = new ComboFieldEditor("style", "Style preset",
+					versionOptions.getStyles(), getFieldEditorParent());
+			dependentFieldEditors.add(styleSelector);
+			addField(styleSelector);
 		} else {
 			// versions above 3.3 support custom styles
 			String stylesWithCustom[][] = Arrays.copyOf(
@@ -51,12 +77,22 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 					versionOptions.getStyles().length + 1);
 			stylesWithCustom[versionOptions.getStyles().length] = new String[] {
 					"Custom", "" };
-			addField(new ComboFieldEditor("style", "Style preset",
-					stylesWithCustom, composite));
+			ComboFieldEditor styleSelector = new ComboFieldEditor("style", "Style preset",
+					stylesWithCustom, getFieldEditorParent());
+			dependentFieldEditors.add(styleSelector);
+			addField(styleSelector);
 			for (FormatOption option : versionOptions.getFormatOptions()) {
-				addField(option.getFieldEditor(composite));
+				FieldEditor fieldEditor = option.getFieldEditor(getFieldEditorParent());
+				dependentFieldEditors.add(fieldEditor);
+				addField(fieldEditor);
 			}
 		}
+	}
+	
+	public void clearOptionsForVersion() {
+		for(FieldEditor fieldEditor : dependentFieldEditors)
+			fieldEditor.dispose();
+		dependentFieldEditors.clear();
 	}
 
 	/*
