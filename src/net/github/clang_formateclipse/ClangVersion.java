@@ -88,13 +88,8 @@ public class ClangVersion {
 					.compile("clang-format version ([0-9]+)\\.([0-9]+)");
 			if (scanner.findWithinHorizon(pattern, 0) != null) {
 				MatchResult match = scanner.match();
-				try {
-					return new ClangVersion(Integer.getInteger(match.group(1)),
-							Integer.getInteger(match.group(2)));
-				} catch (NullPointerException e) {
-					throw new ClangVersionError(
-							"Could not find clang-format version string in output");		
-				}
+				return new ClangVersion(Integer.parseInt(match.group(1)),
+						Integer.parseInt(match.group(2)));
 			}
 			throw new ClangVersionError(
 					"Could not find clang-format version string in output");
