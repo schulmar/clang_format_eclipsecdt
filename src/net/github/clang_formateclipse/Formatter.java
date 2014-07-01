@@ -96,13 +96,18 @@ public class Formatter extends CodeFormatter {
 		StringBuilder styleStringBuilder = new StringBuilder();
 		IPreferenceStore preferenceStore = Activator.getDefault()
 				.getPreferenceStore();
-		for (FormatOption option : versionOptions.getFormatOptions()) {
-			String value = option.getValueString(preferenceStore);
-			if (!value.isEmpty())
-				styleStringBuilder.append(String.format("%s: %s, ",
-						option.getOptionName(), value));
+		if (preferenceStore.getString(Preferences.STYLE_OPTION) == Preferences.CUSTOM_STYLE) {
+			for (FormatOption option : versionOptions.getFormatOptions()) {
+				String value = option.getValueString(preferenceStore);
+				if (!value.isEmpty())
+					styleStringBuilder.append(String.format("%s: %s, ",
+							option.getOptionName(), value));
+			}
+			return String.format("-style={%s}", styleStringBuilder.toString());
+		} else {
+			return String.format("-style=%s",
+					preferenceStore.getString(Preferences.STYLE_OPTION));
 		}
-		return String.format("-style={%s}", styleStringBuilder.toString());
 	}
 
 	@Override

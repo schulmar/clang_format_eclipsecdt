@@ -8,6 +8,8 @@ import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -56,6 +58,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 			return;
 		}
 		createOptionsForVersion(clangVersion, versionOptions);
+		setEnabledState(getPreferenceStore()
+				.getString(Preferences.STYLE_OPTION) == Preferences.CUSTOM_STYLE);
 	}
 	
 	public void createOptionsForVersion(ClangVersion clangVersion,
@@ -66,9 +70,10 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 				clangVersion.getMinor());
 		if (clangVersion == new ClangVersion(3, 3)) {
 			// version 3.3 only supports preset style
-			ComboFieldEditor styleSelector = new ComboFieldEditor("style", "Style preset",
+			ComboFieldEditor styleSelector = new ComboFieldEditor(
+					Preferences.STYLE_OPTION, "Style preset",
 					versionOptions.getStyles(), getFieldEditorParent());
-			dependentFieldEditors.add(styleSelector);
+			//dependentFieldEditors.add(styleSelector);
 			addField(styleSelector);
 		} else {
 			// versions above 3.3 support custom styles
@@ -76,10 +81,11 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 					versionOptions.getStyles(),
 					versionOptions.getStyles().length + 1);
 			stylesWithCustom[versionOptions.getStyles().length] = new String[] {
-					"Custom", "" };
+					Preferences.CUSTOM_STYLE, Preferences.CUSTOM_STYLE };
 			ComboFieldEditor styleSelector = new ComboFieldEditor("style", "Style preset",
 					stylesWithCustom, getFieldEditorParent());
-			dependentFieldEditors.add(styleSelector);
+			this.
+			//dependentFieldEditors.add(styleSelector);
 			addField(styleSelector);
 			for (FormatOption option : versionOptions.getFormatOptions()) {
 				FieldEditor fieldEditor = option.getFieldEditor(getFieldEditorParent());
@@ -89,10 +95,28 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		}
 	}
 	
-	public void clearOptionsForVersion() {
+	private void setEnabledState(boolean enabled) {
 		for(FieldEditor fieldEditor : dependentFieldEditors)
-			fieldEditor.dispose();
-		dependentFieldEditors.clear();
+			fieldEditor.setEnabled(enabled, getFieldEditorParent());
+	}
+
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		switch (((FieldEditor)event.getSource()).getPreferenceName()) {
+		case Preferences.STYLE_OPTION:
+			setEnabledState(event.getNewValue().toString() == Preferences.CUSTOM_STYLE);
+			super.propertyChange(event);
+			break;
+		case Preferences.CLANG_FORMAT_PATH:
+			super.propertyChange(event);
+			dispose();
+			createFieldEditors();
+			break;
+		default:
+			super.propertyChange(event);
+			break;
+		}
 	}
 
 	/*

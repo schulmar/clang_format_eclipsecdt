@@ -9,4 +9,7 @@ public class Preferences {
 	public static final String MAJOR_VERSION = "majorClangVersion";
 	
 	public static final String CLANG_FORMAT_PATH = "clangFormatPath";
+	
+	public static final String STYLE_OPTION = "style";
+	public static final String CUSTOM_STYLE = "Custom";
 }
