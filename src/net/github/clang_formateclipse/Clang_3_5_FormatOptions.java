@@ -53,7 +53,6 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 								{
 										"[All] Merge all functions fitting on a single line.",
 										"All" } }),
-
 				new BooleanFormatOption("AllowShortIfStatementsOnASingleLine",
 						"If true, if (a) return; can be put on a single line."),
 				new BooleanFormatOption("AllowShortLoopsOnASingleLine",
@@ -124,20 +123,17 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 						"The number of columns to use for indentation."),
 				new BooleanFormatOption("KeepEmptyLinesAtTheStartOfBlocks",
 						"If true, empty lines at the start of blocks are kept."),
-				new SingleElementSelectionFormatOption(
-						"Language",
-						"Language, this format style is targeted at.",
-						new String[][] {
-								{ "[None] Do not use.", "None" },
-								{
-										"[Cpp] Should be used for C, C++, ObjectiveC, ObjectiveC++.",
-										"Cpp" },
-								{
-										"[JavaScript] Should be used for JavaScript.",
-										"JavaScript" },
-								{
-										"[Proto] Should be used for Protocol Buffers (https://developers.google.com/protocol-buffers/).",
-										"Proto" } }),
+				// TODO: Documented but not implemented?
+				/*
+				 * new SingleElementSelectionFormatOption( "Language",
+				 * "Language, this format style is targeted at.", new String[][]
+				 * { { "[None] Do not use.", "None" }, {
+				 * "[Cpp] Should be used for C, C++, ObjectiveC, ObjectiveC++.",
+				 * "Cpp" }, { "[JavaScript] Should be used for JavaScript.",
+				 * "JavaScript" }, {
+				 * "[Proto] Should be used for Protocol Buffers (https://developers.google.com/protocol-buffers/)."
+				 * , "Proto" } }),
+				 */
 				new UnsignedFormatOption("MaxEmptyLinesToKeep",
 						"The maximum number of consecutive empty lines to keep."),
 				new SingleElementSelectionFormatOption(
