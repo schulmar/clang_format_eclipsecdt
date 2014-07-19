@@ -13,8 +13,10 @@ public class IntegerFormatOption extends FormatOption {
 
 	@Override
 	FieldEditor getFieldEditor(Composite parent) {
-		return setTooltipAndReturn(new IntegerFieldEditor(getOptionName(),
-				getOptionName(), parent), parent);
+		IntegerFieldEditor fieldEditor = new IntegerFieldEditor(
+				getOptionName(), getOptionName(), parent);
+		fieldEditor.setValidRange(Integer.MIN_VALUE, Integer.MAX_VALUE);
+		return setTooltipAndReturn(fieldEditor, parent);
 	}
 
 	@Override
