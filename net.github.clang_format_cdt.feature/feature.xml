@@ -2,7 +2,7 @@
 <feature
       id="net.github.clang_format_cdt.feature"
       label="Clang Format CDT Feature"
-      version="0.0.2"
+      version="0.0.3"
       provider-name="Martin Schulze">
 
    <description url="https://github.com/schulmar/clang_format_eclipsecdt">
@@ -111,7 +111,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="net.github.clang_format"
          download-size="0"
          install-size="0"
-         version="0.0.2"
+         version="0.0.3"
          unpack="false"/>
 
 </feature>
