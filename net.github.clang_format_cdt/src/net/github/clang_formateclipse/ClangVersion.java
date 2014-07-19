@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClangVersion {
@@ -33,9 +34,23 @@ public class ClangVersion {
 		this.major = major;
 		this.minor = minor;
 	}
-	
-	
 
+	static public ClangVersion fromVersionString(String versionString) throws ClangVersionError {
+		Pattern pattern = Pattern.compile("([0-9]+)\\.([0-9]+)");
+		Matcher matcher = pattern.matcher(versionString);
+		if(matcher.find()) {
+			return new ClangVersion(Integer.parseInt(matcher.group(1)),
+					Integer.parseInt(matcher.group(2)));
+		}
+		throw new ClangVersionError(String.format(
+				"Could not find clang-format version string in \"%s\"",
+				versionString));
+	}
+	
+	public String toString() {
+		return String.format("%d.%d", major, minor);
+	}
+	
 	/**
 	 * Determine the clang-format version of an executable
 	 * 
@@ -58,38 +73,15 @@ public class ClangVersion {
 		} catch (IOException e) {
 			throw new ClangVersionError("Could not close output stream", e);
 		}
-		/*
-		// we don't expect any errors but when there are some then throw them
-		int exitValue = subProc.exitValue();
-		if (exitValue != 0) {
-			StringBuilder errorStringBuilder = new StringBuilder();
-			InputStreamReader reader = new InputStreamReader(
-					subProc.getErrorStream());
-			BufferedReader br = new BufferedReader(reader);
-			try {
-				String line;
-				while ((line = br.readLine()) != null) {
-					errorStringBuilder.append(line);
-					errorStringBuilder.append("\n");
-				}
-			} catch (IOException exception) {
-				Logger.logError(exception);
-			}
-			throw new ClangVersionError(String.format(
-					"Got error exit = %i: %s", exitValue,
-					errorStringBuilder.toString()));
-		}
-		*/
 		// the program ran correctly, try to parse it
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(subProc.getInputStream());
 			Pattern pattern = Pattern
-					.compile("clang-format version ([0-9]+)\\.([0-9]+)");
+					.compile("clang-format version ([0-9]+.[0-9]+)");
 			if (scanner.findWithinHorizon(pattern, 0) != null) {
 				MatchResult match = scanner.match();
-				return new ClangVersion(Integer.parseInt(match.group(1)),
-						Integer.parseInt(match.group(2)));
+				return fromVersionString(match.group(1));
 			}
 			throw new ClangVersionError(
 					"Could not find clang-format version string in output");
