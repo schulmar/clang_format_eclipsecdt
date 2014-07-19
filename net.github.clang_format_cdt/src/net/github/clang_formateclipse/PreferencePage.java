@@ -17,6 +17,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {
 
 	private List<FieldEditor> dependentFieldEditors;
+	private ComboFieldEditor clangFormatVersionEditor;
 	
 	public PreferencePage() {
 		super(GRID);
@@ -31,21 +32,49 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 	 * editor knows how to save and restore itself.
 	 */
 	public void createFieldEditors() {
+		dependentFieldEditors.clear();
 		FileFieldEditor clangFormatPathEditor = new FileFieldEditor(
 				Preferences.CLANG_FORMAT_PATH, "Path to clang-format",
 				getFieldEditorParent());
 		addField(clangFormatPathEditor);
 		ClangVersion clangVersion;
 		try {
-			clangVersion = ClangVersion.fromExecutable(getPreferenceStore().getString(Preferences.CLANG_FORMAT_PATH));
-		} catch (ClangVersionError e1) {
-			Logger.logError(e1);
-			clangFormatPathEditor
-					.setErrorMessage("Could not determine clang-format version: "
-							+ e1.getMessage());
-			return;
+			clangVersion = ClangVersion.fromVersionString(getPreferenceStore().getString(Preferences.VERSION));
+			Logger.logInfo("Read clang version from preference: " + clangVersion.toString());
+		} catch(Exception e) {
+			Logger.logError("Could not read clang version from preferences", e);
+			try {
+				clangVersion = ClangVersion.fromExecutable(getPreferenceStore().getString(Preferences.CLANG_FORMAT_PATH));
+				Logger.logInfo("Read clang version from executable: " + clangVersion.toString());
+			} catch (Exception e1) {
+				// could not read from the executable either
+				Logger.logError("Could not determine clang version from executable output", e1);
+				clangFormatPathEditor
+						.setErrorMessage("Could not determine clang-format version: "
+								+ e1.getMessage());
+				// select fallback version
+				clangVersion = new ClangVersion(3, 4);
+				getPreferenceStore().setValue(Preferences.VERSION, clangVersion.toString());
+			}
 		}
+		// list the known versions for selection
+		clangFormatVersionEditor = new ComboFieldEditor(Preferences.VERSION,
+				"LLVM version", stringArrayToOptions(new String[] {
+						new ClangVersion(3, 3).toString(),
+						new ClangVersion(3, 4).toString(),
+						new ClangVersion(3, 5).toString() }),
+				getFieldEditorParent());
+		addField(clangFormatVersionEditor);
 		createVersionDependandFieldEditors(clangVersion);
+	}
+	
+	private String[][] stringArrayToOptions(String array[]) {
+		String result[][] = new String[array.length][2];
+		for(int i = 0; i < array.length; ++i) {
+			result[i][0] = array[i];
+			result[i][1] = array[i];
+		}
+		return result;
 	}
 
 	private void createVersionDependandFieldEditors(ClangVersion clangVersion) {
@@ -64,11 +93,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 	
 	public void createOptionsForVersion(ClangVersion clangVersion,
 			ClangVersionOptions versionOptions) {
-		getPreferenceStore().setValue(Preferences.MAJOR_VERSION,
-				clangVersion.getMajor());
-		getPreferenceStore().setValue(Preferences.MINOR_VERSION,
-				clangVersion.getMinor());
-		if (clangVersion == new ClangVersion(3, 3)) {
+		Logger.logInfo("Preparing options for version " + clangVersion.toString());
+		if (clangVersion.equals(new ClangVersion(3, 3))) {
 			// version 3.3 only supports preset style
 			ComboFieldEditor styleSelector = new ComboFieldEditor(
 					Preferences.STYLE_OPTION, "Style preset",
@@ -84,7 +110,6 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 					Preferences.CUSTOM_STYLE, Preferences.CUSTOM_STYLE };
 			ComboFieldEditor styleSelector = new ComboFieldEditor("style", "Style preset",
 					stylesWithCustom, getFieldEditorParent());
-			this.
 			//dependentFieldEditors.add(styleSelector);
 			addField(styleSelector);
 			for (FormatOption option : versionOptions.getFormatOptions()) {
@@ -110,8 +135,28 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 			break;
 		case Preferences.CLANG_FORMAT_PATH:
 			super.propertyChange(event);
-			dispose();
-			createFieldEditors();
+			try {
+				ClangVersion newClangVersion = ClangVersion.fromExecutable(event.getNewValue().toString());
+				Logger.logInfo("New version from executable: " + newClangVersion.toString());
+				getPreferenceStore().setValue(Preferences.VERSION, newClangVersion.toString());
+				clangFormatVersionEditor.load();
+				setMessage(String
+						.format("New clang version %s detected. Close and reopen preferences to see version specific options.",
+								newClangVersion.toString()));
+			}catch (Exception e) {
+				Logger.logError("Could not determine version from executable", e);
+			}
+			break;
+		case Preferences.VERSION:
+			super.propertyChange(event);
+			String newVersionString = event.getNewValue().toString();
+			try {
+				ClangVersion newClangVersion = ClangVersion.fromVersionString(newVersionString);
+				Logger.logInfo("New version selected: " + newClangVersion.toString());
+				setMessage("Close and reopen Preferences to see version specific options.");
+			} catch(Exception e) {
+				Logger.logError("Could not change version from field selection " + newVersionString, e);
+			}
 			break;
 		default:
 			super.propertyChange(event);

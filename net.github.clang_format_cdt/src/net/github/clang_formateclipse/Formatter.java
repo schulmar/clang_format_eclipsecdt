@@ -29,6 +29,7 @@ public class Formatter extends CodeFormatter {
 	public TextEdit format(int kind, String source, int offset, int length,
 			int indentationLevel, String lineSeparator) {
 		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
+		//TODO: clang_format 3.3 does only support full text replacement 
 		Runtime RT = Runtime.getRuntime();
 		String err = "";
 		String[] args = { prefs.getString(Preferences.CLANG_FORMAT_PATH),
@@ -112,9 +113,16 @@ public class Formatter extends CodeFormatter {
 
 	@Override
 	public void setOptions(Map<String, ?> options) {
-		int major = Activator.getDefault().getPreferenceStore().getInt(Preferences.MAJOR_VERSION);
-		int minor = Activator.getDefault().getPreferenceStore().getInt(Preferences.MINOR_VERSION);
-		ClangVersion version = new ClangVersion(major, minor);
+		String versionString = Activator.getDefault().getPreferenceStore()
+				.getString(Preferences.VERSION);
+		ClangVersion version;
+		try {
+			version = ClangVersion.fromVersionString(versionString);
+		} catch (ClangVersionError e1) {
+			Logger.logError("Could not determine version from preferences: "
+					+ versionString, e1);
+			return;
+		}
 		try {
 			versionOptions = ClangVersionOptions.getOptionsForVersion(version);
 		} catch (UnsupportedClangVersion e) {
