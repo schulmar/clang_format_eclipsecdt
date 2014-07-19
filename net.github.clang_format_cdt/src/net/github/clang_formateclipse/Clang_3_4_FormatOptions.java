@@ -38,21 +38,11 @@ public class Clang_3_4_FormatOptions extends ClangVersionOptions {
 						"If false, a function call’s or function definition’s parameters will either all be on the same line or will have one line each."),
 				new BooleanFormatOption("BreakBeforeBinaryOperators",
 						"If true, binary operators will be placed after line breaks."),
-				new SingleElementSelectionFormatOption(
-						"BreakBeforeBraces",
-						"The brace breaking style to use.",
-						new String[][] {
-								{
-										"[Attach] Always attach braces to surrounding context.",
-										"Attach" },
-								{
-										"[Linux] Like Attach, but break before braces on function, namespace and class definitions.",
-										"Linux" },
-								{
-										"[Stroustrup] Like Attach, but break before function definitions.",
-										"Stroustrup" },
-								{ "[Allman] Always break before braces.",
-										"Allman" } }),
+				new SingleElementSelectionFormatOption("BreakBeforeBraces",
+						"The brace breaking style to use.", new String[][] {
+								{ "Attach", "Attach" }, { "Linux", "Linux" },
+								{ "Stroustrup", "Stroustrup" },
+								{ "Allman", "Allman" } }),
 				new BooleanFormatOption(
 						"BreakConstructorInitializersBeforeComma",
 						"Always break constructor initializers before commas and align the commas with the colon."),
@@ -80,15 +70,10 @@ public class Clang_3_4_FormatOptions extends ClangVersionOptions {
 						"The number of columns to use for indentation."),
 				new UnsignedFormatOption("MaxEmptyLinesToKeep",
 						"The maximum number of consecutive empty lines to keep."),
-				new SingleElementSelectionFormatOption(
-						"NamespaceIndentation",
-						"The indentation used for namespaces.",
-						new String[][] {
-								{ "[None] Don’t indent in namespaces.", "None" },
-								{
-										"[Inner] Indent only in inner namespaces (nested in other namespaces).",
-										"Inner" },
-								{ "[All] Indent in all namespaces.", "All" } }),
+				new SingleElementSelectionFormatOption("NamespaceIndentation",
+						"The indentation used for namespaces.", new String[][] {
+								{ "None", "None" }, { "Inner", "Inner" },
+								{ "All", "All" } }),
 				new BooleanFormatOption(
 						"ObjCSpaceBeforeProtocolList",
 						"Add a space in front of an Objective-C protocol list, i.e. use Foo <Protocol> instead of Foo<Protocol>."),
@@ -119,30 +104,17 @@ public class Clang_3_4_FormatOptions extends ClangVersionOptions {
 				new SingleElementSelectionFormatOption(
 						"Standard",
 						"Format compatible with this standard, e.g. use A<A<int> > instead of A<A<int>> for LS_Cpp03.",
-						new String[][] {
-								{ "[Cpp03] Use C++03-compatible syntax.",
-										"Cpp03" },
-								{
-										"[Cpp11] Use features of C++11 (e.g. A<A<int>> instead of A<A<int> >).",
-										"Cpp11" },
-								{
-										"[Auto] Automatic detection based on the input.",
-										"Auto" }
+						new String[][] { { "Cpp03", "Cpp03" },
+								{ "Cpp11", "Cpp11" }, { "Auto", "Auto" }
 
 						}),
 				new UnsignedFormatOption("TabWidth",
 						"The number of columns used for tab stops."),
-				new SingleElementSelectionFormatOption(
-						"UseTab",
+				new SingleElementSelectionFormatOption("UseTab",
 						"The way to use tab characters in the resulting file.",
-						new String[][] {
-								{ "[Never] Never use tab.", "Never" },
-								{
-										"[ForIndentation] Use tabs only for indentation.",
-										"ForIndentation" },
-								{
-										"[Always] Use tabs whenever we need to fill whitespace that spans at least from one tab stop to the next one.",
-										"Always" } }) };
+						new String[][] { { "Never", "Never" },
+								{ "ForIndentation", "ForIndentation" },
+								{ "Always", "Always" } }) };
 	}
 
 	@Override

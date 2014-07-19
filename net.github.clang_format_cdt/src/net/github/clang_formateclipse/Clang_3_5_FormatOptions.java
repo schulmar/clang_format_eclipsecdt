@@ -11,22 +11,11 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 				new SingleElementSelectionFormatOption(
 						"BasedOnStyle",
 						"The style used for all options not specifically set in the configuration.",
-						new String[][] {
-								{
-										"[LLVM] A style complying with the LLVM coding standards",
-										"LLVM" },
-								{
-										"[Google] A style complying with Google’s C++ style guide",
-										"Google" },
-								{
-										"[Chromium] A style complying with Chromium’s style guide",
-										"Chromium" },
-								{
-										"[Mozilla] A style complying with Mozilla’s style guide",
-										"Mozilla" },
-								{
-										"[WebKit] A style complying with WebKit’s style guide",
-										"WebKit" } }),
+						new String[][] { { "LLVM", "LLVM" },
+								{ "Google", "Google" },
+								{ "Chromium", "Chromium" },
+								{ "Mozilla", "Mozilla" },
+								{ "WebKit", "WebKit" } }),
 				new IntegerFormatOption("AccessModifierOffset",
 						"The extra indent or outdent of access modifiers, e.g. public:."),
 				new BooleanFormatOption(
@@ -42,17 +31,8 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 				new SingleElementSelectionFormatOption(
 						"AllowShortFunctionsOnASingleLine",
 						"Dependent on the value, int f() { return 0; } can be put on a single line.",
-						new String[][] {
-								{
-										"[None] Never merge functions into a single line.",
-										"None" },
-								{
-										"[Inline] Only merge functions defined inside a class.",
-										"Inline" },
-
-								{
-										"[All] Merge all functions fitting on a single line.",
-										"All" } }),
+						new String[][] { { "None", "None" },
+								{ "Inline", "Inline" }, { "All", "All" } }),
 				new BooleanFormatOption("AllowShortIfStatementsOnASingleLine",
 						"If true, if (a) return; can be put on a single line."),
 				new BooleanFormatOption("AllowShortLoopsOnASingleLine",
@@ -66,24 +46,11 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 						"If false, a function call’s or function definition’s parameters will either all be on the same line or will have one line each."),
 				new BooleanFormatOption("BreakBeforeBinaryOperators",
 						"If true, binary operators will be placed after line breaks."),
-				new SingleElementSelectionFormatOption(
-						"BreakBeforeBraces",
-						"The brace breaking style to use.",
-						new String[][] {
-								{
-										"[Attach] Always attach braces to surrounding context.",
-										"Attach" },
-								{
-										"[Linux] Like Attach, but break before braces on function, namespace and class definitions.",
-										"Linux" },
-								{
-										"[Stroustrup] Like Attach, but break before function definitions.",
-										"Stroustrup" },
-								{ "[Allman] Always break before braces.",
-										"Allman" },
-								{
-										"[GNU] Always break before braces and add an extra level of indentation to braces of control statements, not to those of class, function or other definitions.",
-										"GNU" }, }),
+				new SingleElementSelectionFormatOption("BreakBeforeBraces",
+						"The brace breaking style to use.", new String[][] {
+								{ "Attach", "Attach" }, { "Linux", "Linux" },
+								{ "Stroustrup", "Stroustrup" },
+								{ "Allman", "Allman" }, { "GNU", "GNU" }, }),
 				new BooleanFormatOption("BreakBeforeTernaryOperators",
 						"If true, ternary operators will be placed after line breaks."),
 				new BooleanFormatOption(
@@ -136,15 +103,10 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 				 */
 				new UnsignedFormatOption("MaxEmptyLinesToKeep",
 						"The maximum number of consecutive empty lines to keep."),
-				new SingleElementSelectionFormatOption(
-						"NamespaceIndentation",
-						"The indentation used for namespaces.",
-						new String[][] {
-								{ "[None] Don’t indent in namespaces.", "None" },
-								{
-										"[Inner] Indent only in inner namespaces (nested in other namespaces).",
-										"Inner" },
-								{ "[All] Indent in all namespaces.", "All" } }),
+				new SingleElementSelectionFormatOption("NamespaceIndentation",
+						"The indentation used for namespaces.", new String[][] {
+								{ "None", "None" }, { "Inner", "Inner" },
+								{ "All", "All" } }),
 				new BooleanFormatOption(
 						"ObjCSpaceAfterProperty",
 						"Add a space after @property in Objective-C, i.e. use \\@property (readonly) instead of \\@property(readonly)."),
@@ -164,30 +126,18 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 						"The penalty for each character outside of the column limit."),
 				new UnsignedFormatOption("PenaltyReturnTypeOnItsOwnLine",
 						"Penalty for putting the return type of a function onto its own line."),
-				new SingleElementSelectionFormatOption(
-						"PointerAlignment",
+				new SingleElementSelectionFormatOption("PointerAlignment",
 						"Pointer and reference alignment style.",
-						new String[][] {
-								{ "[Left] Align pointer to the left.", "Left" },
-								{ "[Right] Align pointer to the right.",
-										"Right" },
-								{ "[Middle] Align pointer in the middle.",
-										"Middle" } }),
+						new String[][] { { "Left", "Left" },
+								{ "Right", "Right" }, { "Middle", "Middle" } }),
 				new BooleanFormatOption("SpaceBeforeAssignmentOperators",
 						"If false, spaces will be removed before assignment operators."),
 				new SingleElementSelectionFormatOption(
 						"SpaceBeforeParens",
 						"Defines in which cases to put a space before opening parentheses.",
-						new String[][] {
-								{
-										"[Never] Never put a space before opening parentheses.",
-										"Never" },
-								{
-										"[ControlStatements] Put a space before opening parentheses only after control statement keywords (for/if/while...).",
-										"ControlStatement" },
-								{
-										"[Always] Always put a space before opening parentheses, except when it’s prohibited by the syntax rules (in function-like macro definitions) or when determined by other style rules (after unary operators, opening parentheses, etc.",
-										"Always" } }),
+						new String[][] { { "Never", "Never" },
+								{ "ControlStatements", "ControlStatement" },
+								{ "Always", "Always" } }),
 				new BooleanFormatOption("SpaceInEmptyParentheses",
 						"If true, spaces may be inserted into ‘()’."),
 				new UnsignedFormatOption("SpacesBeforeTrailingComments",
@@ -205,28 +155,15 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 				new SingleElementSelectionFormatOption(
 						"Standard",
 						"Format compatible with this standard, e.g. use A<A<int> > instead of A<A<int>> for LS_Cpp03.",
-						new String[][] {
-								{ "[Cpp03] Use C++03-compatible syntax.",
-										"Cpp03" },
-								{
-										"[Cpp11] Use features of C++11 (e.g. A<A<int>> instead of A<A<int> >).",
-										"Cpp11" },
-								{
-										"[Auto] Automatic detection based on the input.",
-										"Auto" } }),
+						new String[][] { { "Cpp03", "Cpp03" },
+								{ "Cpp11", "Cpp11" }, { "Auto", "Auto" } }),
 				new UnsignedFormatOption("TabWidth",
 						"The number of columns used for tab stops."),
-				new SingleElementSelectionFormatOption(
-						"UseTab",
+				new SingleElementSelectionFormatOption("UseTab",
 						"The way to use tab characters in the resulting file.",
-						new String[][] {
-								{ "[Never] Never use tab.", "Never" },
-								{
-										"[ForIndentation] Use tabs only for indentation.",
-										"ForIndentation" },
-								{
-										"[Always] Use tabs whenever we need to fill whitespace that spans at least from one tab stop to the next one.",
-										"Always" } })
+						new String[][] { { "Never", "Never" },
+								{ "ForIndentation", "ForIndentation" },
+								{ "Always", "Always" } })
 
 		};
 	}

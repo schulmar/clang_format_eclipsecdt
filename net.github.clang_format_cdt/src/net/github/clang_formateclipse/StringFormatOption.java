@@ -13,7 +13,8 @@ public class StringFormatOption extends FormatOption {
 
 	@Override
 	FieldEditor getFieldEditor(Composite parent) {
-		return new StringFieldEditor(getOptionName(), getOptionDescription(), parent); 
+		return setTooltipAndReturn(new StringFieldEditor(getOptionName(),
+				getOptionName(), parent), parent); 
 	}
 
 	@Override

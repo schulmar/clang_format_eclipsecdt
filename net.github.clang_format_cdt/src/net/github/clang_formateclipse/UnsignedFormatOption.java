@@ -14,9 +14,9 @@ public class UnsignedFormatOption extends FormatOption {
 	@Override
 	FieldEditor getFieldEditor(Composite parent) {
 		IntegerFieldEditor fieldEditor = new IntegerFieldEditor(
-				getOptionName(), getOptionDescription(), parent);
+				getOptionName(), getOptionName(), parent);
 		fieldEditor.setValidRange(0, Integer.MAX_VALUE);
-		return fieldEditor;
+		return setTooltipAndReturn(fieldEditor, parent);
 	}
 
 	@Override

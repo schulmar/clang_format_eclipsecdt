@@ -13,10 +13,11 @@ public class BooleanFormatOption extends FormatOption {
 
 	@Override
 	FieldEditor getFieldEditor(Composite parent) {
-		return new ComboFieldEditor(getOptionName(), getOptionDescription(),
-				new String[][] { { "default", Preferences.NONE },
-						{ "on", Preferences.TRUE },
-						{ "off", Preferences.FALSE } }, parent);
+		return setTooltipAndReturn(new ComboFieldEditor(getOptionName(),
+				getOptionName(), new String[][] {
+			{ "default", Preferences.NONE },
+			{ "on", Preferences.TRUE },
+			{ "off", Preferences.FALSE } }, parent), parent);
 	}
 
 	@Override

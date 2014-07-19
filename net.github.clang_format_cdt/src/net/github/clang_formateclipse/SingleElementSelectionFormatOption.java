@@ -21,8 +21,8 @@ public class SingleElementSelectionFormatOption extends FormatOption {
 
 	@Override
 	FieldEditor getFieldEditor(Composite parent) {
-		return new ComboFieldEditor(getOptionName(), getOptionDescription(),
-				elements, parent);
+		return setTooltipAndReturn(new ComboFieldEditor(getOptionName(),
+				getOptionName(), elements, parent), parent);
 	}
 
 	@Override

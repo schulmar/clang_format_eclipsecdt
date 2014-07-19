@@ -22,6 +22,12 @@ public abstract class FormatOption {
 		return optionDescription;
 	}
 	
+	protected FieldEditor setTooltipAndReturn(FieldEditor fieldEditor, Composite parent) {
+		fieldEditor.getLabelControl(parent).setToolTipText(
+				getOptionDescription());
+		return fieldEditor;
+	}
+	
 	/**
 	 * Get the field editor for this option
 	 * @return
