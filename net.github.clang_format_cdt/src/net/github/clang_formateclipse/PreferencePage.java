@@ -88,7 +88,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		}
 		createOptionsForVersion(clangVersion, versionOptions);
 		setEnabledState(getPreferenceStore()
-				.getString(Preferences.STYLE_OPTION) == Preferences.CUSTOM_STYLE);
+				.getString(Preferences.STYLE_OPTION).equals(Preferences.CUSTOM_STYLE));
 	}
 	
 	public void createOptionsForVersion(ClangVersion clangVersion,

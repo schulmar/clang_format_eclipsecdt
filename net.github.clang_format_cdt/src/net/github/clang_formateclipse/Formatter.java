@@ -97,7 +97,8 @@ public class Formatter extends CodeFormatter {
 		StringBuilder styleStringBuilder = new StringBuilder();
 		IPreferenceStore preferenceStore = Activator.getDefault()
 				.getPreferenceStore();
-		if (preferenceStore.getString(Preferences.STYLE_OPTION) == Preferences.CUSTOM_STYLE) {
+		String selectedStyle = preferenceStore.getString(Preferences.STYLE_OPTION); 
+		if (selectedStyle.equals(Preferences.CUSTOM_STYLE)) {
 			for (FormatOption option : versionOptions.getFormatOptions()) {
 				String value = option.getValueString(preferenceStore);
 				if (!value.isEmpty())
