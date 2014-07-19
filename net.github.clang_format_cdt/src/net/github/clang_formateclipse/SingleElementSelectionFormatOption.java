@@ -16,7 +16,7 @@ public class SingleElementSelectionFormatOption extends FormatOption {
 		super(optionName, optionDescription);
 		String elementsWithDefault[][] = Arrays.copyOf(elements, elements.length + 1);
 		elementsWithDefault[elements.length] = new String[]{"default", ""};
-		this.elements = elements;
+		this.elements = elementsWithDefault;
 	}
 
 	@Override
