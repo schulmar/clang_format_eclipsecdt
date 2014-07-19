@@ -78,10 +78,10 @@ public class ClangVersion {
 		try {
 			scanner = new Scanner(subProc.getInputStream());
 			Pattern pattern = Pattern
-					.compile("clang-format version ([0-9]+.[0-9]+)");
+					.compile("(LLVM version|clang-format version)\\s+([0-9]+.[0-9]+)");
 			if (scanner.findWithinHorizon(pattern, 0) != null) {
 				MatchResult match = scanner.match();
-				return fromVersionString(match.group(1));
+				return fromVersionString(match.group(2));
 			}
 			throw new ClangVersionError(
 					"Could not find clang-format version string in output");
