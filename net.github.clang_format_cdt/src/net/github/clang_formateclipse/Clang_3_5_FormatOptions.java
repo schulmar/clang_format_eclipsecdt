@@ -19,7 +19,7 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 				new IntegerFormatOption("AccessModifierOffset",
 						"The extra indent or outdent of access modifiers, e.g. public:."),
 				new BooleanFormatOption(
-						"IntAlignEscapedNewlinesLeft",
+						"AlignEscapedNewlinesLeft",
 						"If true, aligns escaped newlines as far left as possible. Otherwise puts them into the right-most column."),
 				new BooleanFormatOption("AlignTrailingComments",
 						"If true, aligns trailing comments."),
