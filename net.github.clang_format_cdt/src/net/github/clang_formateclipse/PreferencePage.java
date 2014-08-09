@@ -62,7 +62,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 				"LLVM version", stringArrayToOptions(new String[] {
 						new ClangVersion(3, 3).toString(),
 						new ClangVersion(3, 4).toString(),
-						new ClangVersion(3, 5).toString() }),
+						new ClangVersion(3, 5).toString(),
+						new ClangVersion(3, 6).toString()}),
 				getFieldEditorParent());
 		addField(clangFormatVersionEditor);
 		createVersionDependandFieldEditors(clangVersion);

@@ -15,9 +15,11 @@ public abstract class ClangVersionOptions {
 				return new Clang_3_4_FormatOptions();
 			case 5:
 				return new Clang_3_5_FormatOptions();
-				// for higher options assume clang 3.5 capabilities
+			case 6:
+				return new Clang_3_6_FormatOptions();
+				// for higher options assume clang 3.6 capabilities
 			default:
-				return new Clang_3_5_FormatOptions();
+				return new Clang_3_6_FormatOptions();
 			}
 		} else {
 			// version below 3.3 -> no clang format
