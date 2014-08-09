@@ -79,8 +79,9 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 				new BooleanFormatOption(
 						"ExperimentalAutoDetectBinPacking",
 						"If true, clang-format detects whether function calls and definitions are formatted with one parameter per line."),
-				// TODO: new StringFormatOption("ForEachMacros",
-				// "A vector of macros that should be interpreted as foreach loops instead of as function calls."),
+				new StringListFormatOption(
+						"ForEachMacros",
+						"A vector of macros that should be interpreted as foreach loops instead of as function calls."),
 				new BooleanFormatOption("IndentCaseLabels",
 						"Indent case labels one level from the switch statement."),
 				new BooleanFormatOption(
