@@ -13,7 +13,7 @@ public class UnsignedFormatOption extends FormatOption {
 
 	@Override
 	FieldEditor getFieldEditor(Composite parent) {
-		IntegerFieldEditor fieldEditor = new IntegerFieldEditor(
+		IntegerFieldEditorWithDefault fieldEditor = new IntegerFieldEditorWithDefault(
 				getOptionName(), getOptionName(), parent);
 		fieldEditor.setValidRange(0, Integer.MAX_VALUE);
 		return setTooltipAndReturn(fieldEditor, parent);
