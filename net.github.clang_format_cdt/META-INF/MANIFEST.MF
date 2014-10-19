@@ -11,3 +11,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: snakeyaml-1.11.jar,
+ .

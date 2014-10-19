@@ -2,7 +2,6 @@ package net.github.clang_formateclipse;
 
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 
 public class UnsignedFormatOption extends FormatOption {

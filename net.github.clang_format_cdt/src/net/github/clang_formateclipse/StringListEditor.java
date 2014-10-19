@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.preference.ListEditor;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.List;
 
 public class StringListEditor extends ListEditor {
 	public StringListEditor(String name, String labelText, Composite parent) {
@@ -50,4 +51,27 @@ public class StringListEditor extends ListEditor {
 		return elements;
 	}
 
+	public String getStringValue() {
+		return createList(getList().getItems()); 
+	}
+	
+	public String[] getValues() {
+		return getList().getItems();
+	}
+	
+	public void setStringValue(String value) {
+		setValues(parseString(value));
+	}
+	
+	public void setValues(String values[]) {
+		List listWidget = getList();
+		listWidget.removeAll();
+		for(String element: values) {
+			listWidget.add(element);
+		}
+	}
+	
+	public boolean isDefault() {
+		return getList().getItems().length == 0;
+	}
 }

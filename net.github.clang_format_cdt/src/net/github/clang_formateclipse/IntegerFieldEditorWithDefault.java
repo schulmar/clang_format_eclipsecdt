@@ -33,13 +33,12 @@ public class IntegerFieldEditorWithDefault extends StringFieldEditor {
 
 	@Override
 	protected boolean doCheckState() {
-		String stringValue = getStringValue();
 		// string must be defaultValue or
-		if(stringValue.compareToIgnoreCase(defaultValue) == 0)
+		if(isDefault())
 			return true;
 		// else it must be a number between min and max
 		try {
-			int integerValue = Integer.parseInt(stringValue);
+			int integerValue = Integer.parseInt(getStringValue());
 			if(min <= integerValue && integerValue <= max)
 				return true;
 			StringBuilder builder = new StringBuilder();
@@ -66,9 +65,15 @@ public class IntegerFieldEditorWithDefault extends StringFieldEditor {
 
 	@Override
 	protected void doStore() {
-		String stringValue = getStringValue();
 		getPreferenceStore().setValue(getPreferenceName(),
-				stringValue.equalsIgnoreCase(defaultValue) ? "" : stringValue);
+				isDefault() ? "" : getStringValue());
+	}
+
+	public int getValue() {
+		return Integer.parseInt(getStringValue());
 	}
 	
+	public boolean isDefault() {
+		return getStringValue().equalsIgnoreCase(defaultValue);
+	}
 }

@@ -11,10 +11,7 @@ public class Clang_3_4_FormatOptions extends ClangVersionOptions {
 				new SingleElementSelectionFormatOption(
 						"BasedOnStyle",
 						"The style used for all options not specifically set in the configuration.",
-						new String[][] { { "LLVM", "LLVM" },
-								{ "Google", "Google" },
-								{ "Chromium", "Chromium" },
-								{ "Mozilla", "Mozilla" } }),
+						new String[] { "LLVM", "Google", "Chromium", "Mozilla" }),
 				new IntegerFormatOption("AccessModifierOffset",
 						"The extra indent or outdent of access modifiers, e.g. public:."),
 				new BooleanFormatOption(
@@ -39,10 +36,8 @@ public class Clang_3_4_FormatOptions extends ClangVersionOptions {
 				new BooleanFormatOption("BreakBeforeBinaryOperators",
 						"If true, binary operators will be placed after line breaks."),
 				new SingleElementSelectionFormatOption("BreakBeforeBraces",
-						"The brace breaking style to use.", new String[][] {
-								{ "Attach", "Attach" }, { "Linux", "Linux" },
-								{ "Stroustrup", "Stroustrup" },
-								{ "Allman", "Allman" } }),
+						"The brace breaking style to use.", new String[] {
+								"Attach", "Linux", "Stroustrup", "Allman" }),
 				new BooleanFormatOption(
 						"BreakConstructorInitializersBeforeComma",
 						"Always break constructor initializers before commas and align the commas with the colon."),
@@ -71,9 +66,8 @@ public class Clang_3_4_FormatOptions extends ClangVersionOptions {
 				new UnsignedFormatOption("MaxEmptyLinesToKeep",
 						"The maximum number of consecutive empty lines to keep."),
 				new SingleElementSelectionFormatOption("NamespaceIndentation",
-						"The indentation used for namespaces.", new String[][] {
-								{ "None", "None" }, { "Inner", "Inner" },
-								{ "All", "All" } }),
+						"The indentation used for namespaces.", new String[] {
+								"None", "Inner", "All" }),
 				new BooleanFormatOption(
 						"ObjCSpaceBeforeProtocolList",
 						"Add a space in front of an Objective-C protocol list, i.e. use Foo <Protocol> instead of Foo<Protocol>."),
@@ -104,17 +98,12 @@ public class Clang_3_4_FormatOptions extends ClangVersionOptions {
 				new SingleElementSelectionFormatOption(
 						"Standard",
 						"Format compatible with this standard, e.g. use A<A<int> > instead of A<A<int>> for LS_Cpp03.",
-						new String[][] { { "Cpp03", "Cpp03" },
-								{ "Cpp11", "Cpp11" }, { "Auto", "Auto" }
-
-						}),
+						new String[] { "Cpp03", "Cpp11", "Auto" }),
 				new UnsignedFormatOption("TabWidth",
 						"The number of columns used for tab stops."),
 				new SingleElementSelectionFormatOption("UseTab",
 						"The way to use tab characters in the resulting file.",
-						new String[][] { { "Never", "Never" },
-								{ "ForIndentation", "ForIndentation" },
-								{ "Always", "Always" } }) };
+						new String[] { "Never", "ForIndentation", "Always" }) };
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package net.github.clang_formateclipse;
 
-import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
@@ -13,11 +12,8 @@ public class BooleanFormatOption extends FormatOption {
 
 	@Override
 	FieldEditor getFieldEditor(Composite parent) {
-		return setTooltipAndReturn(new ComboFieldEditor(getOptionName(),
-				getOptionName(), new String[][] {
-			{ "default", Preferences.NONE },
-			{ "on", Preferences.TRUE },
-			{ "off", Preferences.FALSE } }, parent), parent);
+		return setTooltipAndReturn(new BooleanFieldEditorWithDefault(
+				getOptionName(), getOptionName(), parent), parent);
 	}
 
 	@Override
