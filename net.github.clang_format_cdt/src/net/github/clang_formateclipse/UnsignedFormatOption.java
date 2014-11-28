@@ -19,8 +19,8 @@ public class UnsignedFormatOption extends FormatOption {
 	}
 
 	@Override
-	String getValueString(IPreferenceStore preferenceStore) {
-		return preferenceStore.getString(getOptionName());
+	Object getValue(IPreferenceStore preferenceStore) {
+		return preferenceStore.getInt(getOptionName());
 	}
 
 }

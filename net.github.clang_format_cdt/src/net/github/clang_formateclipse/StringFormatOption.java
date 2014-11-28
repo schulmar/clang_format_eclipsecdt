@@ -18,7 +18,7 @@ public class StringFormatOption extends FormatOption {
 	}
 
 	@Override
-	String getValueString(IPreferenceStore preferenceStore) {
+	Object getValue(IPreferenceStore preferenceStore) {
 		return preferenceStore.getString(getOptionName());
 	}
 

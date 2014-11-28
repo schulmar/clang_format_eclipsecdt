@@ -17,8 +17,8 @@ public class BooleanFormatOption extends FormatOption {
 	}
 
 	@Override
-	String getValueString(IPreferenceStore preferenceStore) {
-		return preferenceStore.getString(getOptionName());
+	Object getValue(IPreferenceStore preferenceStore) {
+		return preferenceStore.getBoolean(getOptionName());
 	}
 
 }

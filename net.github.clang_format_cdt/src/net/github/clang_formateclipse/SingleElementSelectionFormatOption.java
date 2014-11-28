@@ -21,7 +21,7 @@ public class SingleElementSelectionFormatOption extends FormatOption {
 	}
 
 	@Override
-	String getValueString(IPreferenceStore preferenceStore) {
+	String getValue(IPreferenceStore preferenceStore) {
 		return preferenceStore.getString(getOptionName());
 	}
 

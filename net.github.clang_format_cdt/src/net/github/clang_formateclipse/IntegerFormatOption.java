@@ -19,8 +19,8 @@ public class IntegerFormatOption extends FormatOption {
 	}
 
 	@Override
-	String getValueString(IPreferenceStore preferenceStore) {
-		return Integer.toString(preferenceStore.getInt(getOptionName()));
+	Object getValue(IPreferenceStore preferenceStore) {
+		return preferenceStore.getInt(getOptionName());
 	}
 
 }

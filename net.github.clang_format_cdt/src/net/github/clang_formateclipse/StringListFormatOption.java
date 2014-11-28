@@ -3,6 +3,7 @@ package net.github.clang_formateclipse;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
+import org.yaml.snakeyaml.Yaml;
 
 public class StringListFormatOption extends FormatOption {
 
@@ -17,8 +18,10 @@ public class StringListFormatOption extends FormatOption {
 	}
 
 	@Override
-	String getValueString(IPreferenceStore preferenceStore) {
-		return preferenceStore.getString(getOptionName());
+	Object getValue(IPreferenceStore preferenceStore) {
+		String listString = preferenceStore.getString(getOptionName());
+		Yaml yaml = new Yaml();
+		return yaml.load(listString);
 	}
 
 }

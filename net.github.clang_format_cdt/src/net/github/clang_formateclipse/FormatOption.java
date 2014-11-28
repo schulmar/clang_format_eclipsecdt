@@ -34,5 +34,5 @@ public abstract class FormatOption {
 	 */
 	abstract FieldEditor getFieldEditor(Composite parent);
 	
-	abstract String getValueString(IPreferenceStore preferenceStore);
+	abstract Object getValue(IPreferenceStore preferenceStore);
 }

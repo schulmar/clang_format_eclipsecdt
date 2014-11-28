@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.cdt.core.formatter.CodeFormatter;
@@ -13,6 +14,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.xml.sax.SAXException;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -92,24 +96,30 @@ public class Formatter extends CodeFormatter {
 		}
 		return null;
 	}
+	
+	private String renderStyleOption(FormatOption options[]) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		IPreferenceStore preferenceStore = Activator.getDefault()
+				.getPreferenceStore();
+		
+		for (FormatOption option : versionOptions.getFormatOptions()) {
+			data.put(option.getOptionName(), option.getValue(preferenceStore));
+		}
+		
+		DumperOptions dumperOptions = new DumperOptions();
+		dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
+	    return new Yaml(dumperOptions).dump(data);
+	}
 
 	public String createOptions() {
-		StringBuilder styleStringBuilder = new StringBuilder();
 		IPreferenceStore preferenceStore = Activator.getDefault()
 				.getPreferenceStore();
 		String selectedStyle = preferenceStore.getString(Preferences.STYLE_OPTION); 
-		if (selectedStyle.equals(Preferences.CUSTOM_STYLE)) {
-			for (FormatOption option : versionOptions.getFormatOptions()) {
-				String value = option.getValueString(preferenceStore);
-				if (!value.isEmpty())
-					styleStringBuilder.append(String.format("%s: %s, ",
-							option.getOptionName(), value));
-			}
-			return String.format("-style={%s}", styleStringBuilder.toString());
-		} else {
-			return String.format("-style=%s",
-					preferenceStore.getString(Preferences.STYLE_OPTION));
-		}
+		return String
+				.format("-style=%s",
+						selectedStyle.equals(Preferences.CUSTOM_STYLE) 
+						? renderStyleOption(versionOptions.getFormatOptions()) 
+						: preferenceStore.getString(Preferences.STYLE_OPTION));
 	}
 
 	@Override
