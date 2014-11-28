@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -80,7 +79,6 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 		
 		Button loadFileButton = new Button(getFieldEditorParent(), SWT.PUSH);
 		loadFileButton.setText("Load .clang-format file");
-		GridDataFactory.generate(loadFileButton, 2, 1);
 		loadFileButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
