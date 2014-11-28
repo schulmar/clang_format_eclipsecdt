@@ -11,4 +11,6 @@ public class Preferences {
 	
 	public static final String STYLE_OPTION = "style";
 	public static final String CUSTOM_STYLE = "Custom";
+	
+	public static final ClangVersion DEFAULT_CLANG_VERSION = new ClangVersion(3, 4);
 }
