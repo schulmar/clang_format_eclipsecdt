@@ -10,9 +10,6 @@ Installation
 You can get the current version from the update site: 
 http://schulmar.github.io/clang_format_eclipsecdt/updatesite/
 
-If you get the message "There are no categorized items", 
-uncheck "Group items by category" (there are currently problems with categorized export).
-
 Usage
 =====
 
