@@ -15,7 +15,6 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -24,6 +23,9 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 		implements IWorkbenchPreferencePage {
 
 	private List<FieldEditor> dependentFieldEditors;
+	ClangFormatFileFieldEditor clangFormatFileFieldEditor;
+	LoadStorePseudoFieldEditor loadStoreButtons;
+	
 	static private String[] filterExtensions = new String[]{".clang-format", "*.*"};
 
 	public FormatOptionsPreferencePage() {
@@ -45,10 +47,10 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 		} catch (ClangVersionError e) {
 			clangVersion = Preferences.DEFAULT_CLANG_VERSION;
 		}
-		createVersionDependandFieldEditors(clangVersion);
+		createVersionDependentFieldEditors(clangVersion);
 	}
 	
-	private void createVersionDependandFieldEditors(ClangVersion clangVersion) {
+	private void createVersionDependentFieldEditors(ClangVersion clangVersion) {
 		ClangVersionOptions versionOptions = null;
 		try {
 			versionOptions = ClangVersionOptions
@@ -58,16 +60,23 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 			return;
 		}
 		
-		Button storeFileButton = new Button(getFieldEditorParent(), SWT.PUSH);
-		storeFileButton.setText("Store .clang-format file");
-		storeFileButton.addSelectionListener(new SelectionAdapter() {
+		createOptionsForVersion(clangVersion, versionOptions);
+		setEnabledState(getPreferenceStore()
+				.getString(Preferences.STYLE_OPTION).equals(Preferences.CUSTOM_STYLE));
+	}
+	
+	private void createFormatFileLoadStoreButtons() {
+		loadStoreButtons = new LoadStorePseudoFieldEditor(getFieldEditorParent());
+		addField(loadStoreButtons);
+		
+		loadStoreButtons.addStoreListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
 				dialog.setText("Saving current setting to .clang-format");
 				dialog.setFilterExtensions(filterExtensions);
 				String fileName = dialog.open();
-				if(fileName != null) {
+				if (fileName != null) {
 					try {
 						FormatOptionsStorer.storeTo(getOptions(), fileName);
 					} catch (FileNotFoundException e) {
@@ -77,9 +86,7 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 			}
 		});
 		
-		Button loadFileButton = new Button(getFieldEditorParent(), SWT.PUSH);
-		loadFileButton.setText("Load .clang-format file");
-		loadFileButton.addSelectionListener(new SelectionAdapter() {
+		loadStoreButtons.addLoadListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
@@ -95,10 +102,6 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 				}
 			}
 		});
-		
-		createOptionsForVersion(clangVersion, versionOptions);
-		setEnabledState(getPreferenceStore()
-				.getString(Preferences.STYLE_OPTION).equals(Preferences.CUSTOM_STYLE));
 	}
 	
 	private Map<String, Object> getOptions() {
@@ -176,13 +179,27 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 			// versions above 3.3 support custom styles
 			String stylesWithCustom[][] = Arrays.copyOf(
 					versionOptions.getStyles(),
-					versionOptions.getStyles().length + 1);
+					versionOptions.getStyles().length + 2);
 			stylesWithCustom[versionOptions.getStyles().length] = new String[] {
 					Preferences.CUSTOM_STYLE, Preferences.CUSTOM_STYLE };
+			stylesWithCustom[versionOptions.getStyles().length + 1] = new String[] {
+					Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE_DESCRIPTION,
+					Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE };
 			ComboFieldEditor styleSelector = new ComboFieldEditor("style", "Style preset",
 					stylesWithCustom, getFieldEditorParent());
-			//dependentFieldEditors.add(styleSelector);
 			addField(styleSelector);
+			
+			clangFormatFileFieldEditor = new ClangFormatFileFieldEditor(
+					Preferences.ABSOLUTE_CLANG_FORMAT_FILE_PATH_PROPERTY,
+					Preferences.ABSOLUTE_CLANG_FORMAT_FILE_PATH_LABEL,
+					getFieldEditorParent());
+			setClangFormatFileFieldEditorEnabled(getPreferenceStore()
+					.getString(Preferences.STYLE_OPTION).equals(
+							Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE));
+			addField(clangFormatFileFieldEditor);
+			
+			createFormatFileLoadStoreButtons();
+			
 			for (FormatOption option : versionOptions.getFormatOptions()) {
 				FieldEditor fieldEditor = option.getFieldEditor(getFieldEditorParent());
 				dependentFieldEditors.add(fieldEditor);
@@ -194,16 +211,33 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 	private void setEnabledState(boolean enabled) {
 		for(FieldEditor fieldEditor : dependentFieldEditors)
 			fieldEditor.setEnabled(enabled, getFieldEditorParent());
+		loadStoreButtons.setEnabled(enabled, getFieldEditorParent());
+	}
+	
+	private void setClangFormatFileFieldEditorEnabled(boolean enabled) {
+		clangFormatFileFieldEditor.setEnabled(enabled, getFieldEditorParent());
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if(event.getSource() instanceof FieldEditor) {
-			FieldEditor source = (FieldEditor)event.getSource(); 
+		if (event.getSource() instanceof FieldEditor) {
+			FieldEditor source = (FieldEditor) event.getSource();
 			if (source.getPreferenceName().equals(Preferences.STYLE_OPTION)) {
-				setEnabledState(event.getNewValue().toString()
-						.equals(Preferences.CUSTOM_STYLE));
-		}
+				switch (event.getNewValue().toString()) {
+				case Preferences.CUSTOM_STYLE:
+					setEnabledState(true);
+					setClangFormatFileFieldEditorEnabled(false);
+					break;
+				case Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE:
+					setEnabledState(false);
+					setClangFormatFileFieldEditorEnabled(true);
+					break;
+				default:
+					setEnabledState(false);
+					setClangFormatFileFieldEditorEnabled(false);
+					break;
+				}
+			}
 		}
 		super.propertyChange(event);
 	}

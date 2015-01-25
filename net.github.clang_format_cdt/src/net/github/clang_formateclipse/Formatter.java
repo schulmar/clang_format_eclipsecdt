@@ -29,6 +29,13 @@ public class Formatter extends CodeFormatter {
 	public Formatter() {
 	}
 
+	private String[] concat(String[] first, String[] second) {
+		String[] result = new String[first.length + second.length];
+		System.arraycopy(first, 0, result, 0, first.length);
+		System.arraycopy(second, 0, result, first.length, second.length);
+		return result;
+	}
+	
 	@Override
 	public TextEdit format(int kind, String source, int offset, int length,
 			int indentationLevel, String lineSeparator) {
@@ -39,7 +46,8 @@ public class Formatter extends CodeFormatter {
 		String[] args = { prefs.getString(Preferences.CLANG_FORMAT_PATH),
 				String.format("-offset=%d", offset),
 				String.format("-length=%d", length),
-				"-output-replacements-xml", createOptions() };
+				"-output-replacements-xml",  };
+		args = concat(args, createOptions());
 		Process subProc;
 		try {
 			subProc = RT.exec(args);
@@ -111,15 +119,27 @@ public class Formatter extends CodeFormatter {
 	    return new Yaml(dumperOptions).dump(data);
 	}
 
-	public String createOptions() {
+	public String[] createOptions() {
 		IPreferenceStore preferenceStore = Activator.getDefault()
 				.getPreferenceStore();
-		String selectedStyle = preferenceStore.getString(Preferences.STYLE_OPTION); 
-		return String
-				.format("-style=%s",
-						selectedStyle.equals(Preferences.CUSTOM_STYLE) 
-						? renderStyleOption(versionOptions.getFormatOptions()) 
-						: preferenceStore.getString(Preferences.STYLE_OPTION));
+		switch (preferenceStore.getString(Preferences.STYLE_OPTION)) {
+		case Preferences.CUSTOM_STYLE:
+			return new String[] { String.format("-style=%s",
+					renderStyleOption(versionOptions.getFormatOptions())) };
+		case Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE:
+			// emulate a path to a cpp file at the same level as the
+			// .clang-format file to tell clang-format where to look and which
+			// language to assume
+			return new String[] {
+					"-style=file",
+					"-assume-filename="
+							+ preferenceStore
+									.getString(Preferences.ABSOLUTE_CLANG_FORMAT_FILE_PATH_PROPERTY)
+							+ ".cpp" };
+		default:
+			return new String[] { String.format("-style=%s",
+					preferenceStore.getString(Preferences.STYLE_OPTION)) };
+		}
 	}
 
 	@Override
