@@ -138,7 +138,7 @@ public class Clang_3_6_FormatOptions extends ClangVersionOptions {
 				new SingleElementSelectionFormatOption(
 						"SpaceBeforeParens",
 						"Defines in which cases to put a space before opening parentheses.",
-						new String[] { "Never", "ControlStatement", "Always" }),
+						new String[] { "Never", "ControlStatements", "Always" }),
 				new BooleanFormatOption("SpaceInEmptyParentheses",
 						"If true, spaces may be inserted into ‘()’."),
 				new UnsignedFormatOption("SpacesBeforeTrailingComments",
