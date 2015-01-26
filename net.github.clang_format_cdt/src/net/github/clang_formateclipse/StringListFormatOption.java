@@ -24,4 +24,9 @@ public class StringListFormatOption extends FormatOption {
 		return yaml.load(listString);
 	}
 
+	@Override
+	boolean hasValueImpl(IPreferenceStore preferenceStore) {
+		return !preferenceStore.getString(getOptionName()).equals("");
+	}
+
 }

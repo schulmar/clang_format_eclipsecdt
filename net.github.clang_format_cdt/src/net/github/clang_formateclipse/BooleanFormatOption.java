@@ -16,9 +16,19 @@ public class BooleanFormatOption extends FormatOption {
 				getOptionName(), getOptionName(), parent), parent);
 	}
 
+	String getStringValue(IPreferenceStore preferenceStore) {
+		return preferenceStore.getString(getOptionName());
+	}
+	
 	@Override
 	Object getValue(IPreferenceStore preferenceStore) {
 		return preferenceStore.getBoolean(getOptionName());
+	}
+
+	@Override
+	boolean hasValueImpl(IPreferenceStore preferenceStore) {
+		return getStringValue(preferenceStore).equals(Preferences.TRUE)
+				|| getStringValue(preferenceStore).equals(Preferences.FALSE);
 	}
 
 }

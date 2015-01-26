@@ -22,5 +22,10 @@ public class IntegerFormatOption extends FormatOption {
 	Object getValue(IPreferenceStore preferenceStore) {
 		return preferenceStore.getInt(getOptionName());
 	}
+	
+	@Override
+	boolean hasValueImpl(IPreferenceStore preferenceStore) {
+		return Helper.isInteger(preferenceStore.getString(getOptionName()));
+	}
 
 }

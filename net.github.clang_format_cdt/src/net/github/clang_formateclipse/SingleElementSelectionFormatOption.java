@@ -25,4 +25,13 @@ public class SingleElementSelectionFormatOption extends FormatOption {
 		return preferenceStore.getString(getOptionName());
 	}
 
+	@Override
+	boolean hasValueImpl(IPreferenceStore preferenceStore) {
+		String value = getValue(preferenceStore);
+		for(String option: elements)
+			if(option.equals(value))
+				return true;
+		return false;
+	}
+
 }

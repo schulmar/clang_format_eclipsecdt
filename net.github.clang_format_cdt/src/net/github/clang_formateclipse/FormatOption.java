@@ -34,5 +34,12 @@ public abstract class FormatOption {
 	 */
 	abstract FieldEditor getFieldEditor(Composite parent);
 	
+	boolean hasValue(IPreferenceStore preferenceStore) {
+		return preferenceStore.contains(getOptionName())
+				&& hasValueImpl(preferenceStore);
+	}
+	
+	abstract boolean hasValueImpl(IPreferenceStore preferenceStore);
+	
 	abstract Object getValue(IPreferenceStore preferenceStore);
 }

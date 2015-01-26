@@ -22,4 +22,9 @@ public class StringFormatOption extends FormatOption {
 		return preferenceStore.getString(getOptionName());
 	}
 
+	@Override
+	boolean hasValueImpl(IPreferenceStore preferenceStore) {
+		return !preferenceStore.getString(getOptionName()).isEmpty();
+	}
+
 }

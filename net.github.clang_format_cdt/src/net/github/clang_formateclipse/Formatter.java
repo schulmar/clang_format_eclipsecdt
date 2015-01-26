@@ -115,7 +115,10 @@ public class Formatter extends CodeFormatter {
 				.getPreferenceStore();
 		
 		for (FormatOption option : versionOptions.getFormatOptions()) {
-			data.put(option.getOptionName(), option.getValue(preferenceStore));
+			if(option.hasValue(preferenceStore)) {
+				data.put(option.getOptionName(),
+						option.getValue(preferenceStore));
+			}
 		}
 		
 		DumperOptions dumperOptions = new DumperOptions();

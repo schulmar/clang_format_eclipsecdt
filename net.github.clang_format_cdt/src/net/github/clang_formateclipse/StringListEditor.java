@@ -15,6 +15,8 @@ public class StringListEditor extends ListEditor {
 
 	@Override
 	protected String createList(String[] elements) {
+		if(elements == null || elements.length == 0)
+			return "";
 		return Arrays.toString(elements);
 	}
 

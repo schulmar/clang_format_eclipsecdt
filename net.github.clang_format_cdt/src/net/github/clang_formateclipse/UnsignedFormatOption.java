@@ -23,4 +23,11 @@ public class UnsignedFormatOption extends FormatOption {
 		return preferenceStore.getInt(getOptionName());
 	}
 
+	@Override
+	boolean hasValueImpl(IPreferenceStore preferenceStore) {
+		String value = preferenceStore.getString(getOptionName());
+		return Helper.isInteger(value)
+				&& preferenceStore.getInt(getOptionName()) >= 0; 
+	}
+
 }
