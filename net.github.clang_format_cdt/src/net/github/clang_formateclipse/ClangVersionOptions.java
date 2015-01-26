@@ -2,6 +2,14 @@ package net.github.clang_formateclipse;
 
 public abstract class ClangVersionOptions {
 
+	static public String[] supportedVersions() {
+		return new String[] { new ClangVersion(3, 3).toString(),
+				new ClangVersion(3, 4).toString(),
+				new ClangVersion(3, 5).toString(),
+				new ClangVersion(3, 6).toString(),
+				new ClangVersion(3, 7).toString() };
+	}
+	
 	static public ClangVersionOptions getOptionsForVersion(ClangVersion version)
 			throws UnsupportedClangVersion {
 		// so far we only support clang 3.x versions

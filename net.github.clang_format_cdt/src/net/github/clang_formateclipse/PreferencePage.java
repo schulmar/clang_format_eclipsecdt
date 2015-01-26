@@ -51,11 +51,8 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 		}
 		// list the known versions for selection
 		clangFormatVersionEditor = new ComboFieldEditor(Preferences.VERSION,
-				"LLVM version", stringArrayToOptions(new String[] {
-						new ClangVersion(3, 3).toString(),
-						new ClangVersion(3, 4).toString(),
-						new ClangVersion(3, 5).toString(),
-						new ClangVersion(3, 6).toString()}),
+				"LLVM version",
+				stringArrayToOptions(ClangVersionOptions.supportedVersions()),
 				getFieldEditorParent());
 		addField(clangFormatVersionEditor);
 	}
