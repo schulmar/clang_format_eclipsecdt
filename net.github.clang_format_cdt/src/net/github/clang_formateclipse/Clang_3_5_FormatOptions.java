@@ -79,11 +79,10 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 						"A vector of macros that should be interpreted as foreach loops instead of as function calls."),
 				new BooleanFormatOption("IndentCaseLabels",
 						"Indent case labels one level from the switch statement."),
-				new BooleanFormatOption(
-						"IndentFunctionDeclarationAfterType",
-						"If true, indent when breaking function declarations which are not also definitions after the type."),
 				new UnsignedFormatOption("IndentWidth",
 						"The number of columns to use for indentation."),
+				new BooleanFormatOption("IndentWrappedFunctionNames",
+						"Indent if a function definition or declaration is wrapped after the type."),
 				new BooleanFormatOption("KeepEmptyLinesAtTheStartOfBlocks",
 						"If true, empty lines at the start of blocks are kept."),
 				// TODO: Documented but not implemented?
@@ -129,7 +128,7 @@ public class Clang_3_5_FormatOptions extends ClangVersionOptions {
 				new SingleElementSelectionFormatOption(
 						"SpaceBeforeParens",
 						"Defines in which cases to put a space before opening parentheses.",
-						new String[] { "Never", "ControlStatement", "Always" }),
+						new String[] { "Never", "ControlStatements", "Always" }),
 				new BooleanFormatOption("SpaceInEmptyParentheses",
 						"If true, spaces may be inserted into ‘()’."),
 				new UnsignedFormatOption("SpacesBeforeTrailingComments",
