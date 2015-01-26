@@ -11,15 +11,17 @@ public abstract class ClangVersionOptions {
 				throw new UnsupportedClangVersion(version);
 			switch (version.getMinor()) {
 			case 3:
+				return null;
 			case 4:
 				return new Clang_3_4_FormatOptions();
 			case 5:
 				return new Clang_3_5_FormatOptions();
 			case 6:
 				return new Clang_3_6_FormatOptions();
-				// for higher options assume clang 3.6 capabilities
+			case 7:
+				// for higher options assume clang 3.7 capabilities
 			default:
-				return new Clang_3_6_FormatOptions();
+				return new Clang_3_7_FormatOptions();
 			}
 		} else {
 			// version below 3.3 -> no clang format
