@@ -1,6 +1,7 @@
 package net.github.clang_formateclipse;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -47,7 +48,10 @@ public class Formatter extends CodeFormatter {
 				String.format("-offset=%d", offset),
 				String.format("-length=%d", length),
 				"-output-replacements-xml",  };
-		args = concat(args, createOptions());
+		String[] options = createOptions();
+		if (options == null)
+			return null;
+		args = concat(args, options);
 		Process subProc;
 		try {
 			subProc = RT.exec(args);
@@ -127,15 +131,19 @@ public class Formatter extends CodeFormatter {
 			return new String[] { String.format("-style=%s",
 					renderStyleOption(versionOptions.getFormatOptions())) };
 		case Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE:
+			String clangFormatFile = preferenceStore
+					.getString(Preferences.ABSOLUTE_CLANG_FORMAT_FILE_PATH_PROPERTY);
+			File f = new File(clangFormatFile);
+			if (!(f.exists() && !f.isDirectory())) {
+				Logger.logError(clangFormatFile
+						+ " could not be found. "
+						+ "clang-format will search for one in the parent directories!");
+			}
 			// emulate a path to a cpp file at the same level as the
 			// .clang-format file to tell clang-format where to look and which
 			// language to assume
-			return new String[] {
-					"-style=file",
-					"-assume-filename="
-							+ preferenceStore
-									.getString(Preferences.ABSOLUTE_CLANG_FORMAT_FILE_PATH_PROPERTY)
-							+ ".cpp" };
+			return new String[] { "-style=file",
+					"-assume-filename=" + clangFormatFile + ".cpp" };
 		default:
 			return new String[] { String.format("-style=%s",
 					preferenceStore.getString(Preferences.STYLE_OPTION)) };

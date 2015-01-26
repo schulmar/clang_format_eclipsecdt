@@ -22,6 +22,16 @@ public class Logger {
 	   public static void logError(Throwable exception) {
 	      logError("Unexpected Exception", exception);
 	   }
+	   
+	   /**
+	    * Log the specified error.
+	    * 
+	    * @param message, a human-readable message, localized to the
+	    *           current locale.
+	    */
+	   public static void logError(String message) {
+	      log(IStatus.ERROR, IStatus.OK, message, null);
+	   }
 
 	   /**
 	    * Log the specified error.
