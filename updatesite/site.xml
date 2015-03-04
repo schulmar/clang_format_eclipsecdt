@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Update site for clang-format CDT Plugin" url="https://schulmar.github.io/clang_format_eclipsecdt/updatesite/">
+      Offers the plugin for using clang-format as formatter engine in Eclipse CDT.
+   </description>
+   <feature url="features/net.github.clang_format_cdt.feature_0.0.7.jar" id="net.github.clang_format_cdt.feature" version="0.0.7">
+      <category name="org.eclipse.cdt.formatter"/>
+   </feature>
+   <category-def name="org.eclipse.cdt.formatter" label="CDT Formatter">
+      <description>
+         Code formatters for CDT
+      </description>
+   </category-def>
+</site>
