@@ -177,16 +177,21 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 			addField(styleSelector);
 		} else {
 			// versions above 3.3 support custom styles
-			String stylesWithCustom[][] = Arrays.copyOf(
-					versionOptions.getStyles(),
-					versionOptions.getStyles().length + 2);
-			stylesWithCustom[versionOptions.getStyles().length] = new String[] {
-					Preferences.CUSTOM_STYLE, Preferences.CUSTOM_STYLE };
-			stylesWithCustom[versionOptions.getStyles().length + 1] = new String[] {
+			ArrayList<String[]> styles = new ArrayList<String[]>(
+					Arrays.asList(versionOptions.getStyles()));
+			styles.add(new String[] {
+					Preferences.CUSTOM_STYLE, Preferences.CUSTOM_STYLE });
+			styles.add(new String[] {
 					Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE_DESCRIPTION,
-					Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE };
-			ComboFieldEditor styleSelector = new ComboFieldEditor("style", "Style preset",
-					stylesWithCustom, getFieldEditorParent());
+					Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE });
+			styles.add(new String[] {
+					Preferences.RELATIVE_CLANG_FORMAT_FILE_STYLE_DESCRIPTION,
+					Preferences.RELATIVE_CLANG_FORMAT_FILE_STYLE });
+			String[][] stylesWithAdditionalOptions = new String[styles.size()][];
+			styles.toArray(stylesWithAdditionalOptions);
+			ComboFieldEditor styleSelector = new ComboFieldEditor("style",
+					"Style preset", stylesWithAdditionalOptions,
+					getFieldEditorParent());
 			addField(styleSelector);
 			
 			clangFormatFileFieldEditor = new ClangFormatFileFieldEditor(
@@ -232,6 +237,7 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 					setEnabledState(false);
 					setClangFormatFileFieldEditorEnabled(true);
 					break;
+				case Preferences.RELATIVE_CLANG_FORMAT_FILE_STYLE:
 				default:
 					setEnabledState(false);
 					setClangFormatFileFieldEditorEnabled(false);

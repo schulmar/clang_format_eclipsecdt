@@ -11,9 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.cdt.core.formatter.CodeFormatter;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.xml.sax.SAXException;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -48,7 +51,13 @@ public class Formatter extends CodeFormatter {
 				String.format("-offset=%d", offset),
 				String.format("-length=%d", length),
 				"-output-replacements-xml",  };
-		String[] options = createOptions();
+		String[] options;
+		try {
+			options = createOptions();
+		} catch(Exception e) {
+			Logger.logError(e);
+			return null;
+		}
 		if (options == null)
 			return null;
 		args = concat(args, options);
@@ -126,7 +135,7 @@ public class Formatter extends CodeFormatter {
 	    return new Yaml(dumperOptions).dump(data);
 	}
 
-	public String[] createOptions() {
+	public String[] createOptions() throws Exception {
 		IPreferenceStore preferenceStore = Activator.getDefault()
 				.getPreferenceStore();
 		switch (preferenceStore.getString(Preferences.STYLE_OPTION)) {
@@ -147,10 +156,25 @@ public class Formatter extends CodeFormatter {
 			// language to assume
 			return new String[] { "-style=file",
 					"-assume-filename=" + clangFormatFile + ".cpp" };
+		case Preferences.RELATIVE_CLANG_FORMAT_FILE_STYLE:
+			String filePath = filePath();
+			if(filePath == null)
+				throw new Exception("Could not determine file path.");
+			return new String[]{"-style=file", "-assume-filename=" + filePath};
 		default:
 			return new String[] { String.format("-style=%s",
 					preferenceStore.getString(Preferences.STYLE_OPTION)) };
 		}
+	}
+	
+	private String filePath() {
+		IWorkbenchPart workbenchPart = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage().getActivePart();
+		IFile file = (IFile) workbenchPart.getSite().getPage()
+				.getActiveEditor().getEditorInput().getAdapter(IFile.class);
+		if (file == null)
+			return null;
+		return file.getRawLocation().toOSString();
 	}
 
 	@Override

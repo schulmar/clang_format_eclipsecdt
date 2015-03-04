@@ -8,7 +8,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.cdt.core;bundle-version="5.5.0",
  org.eclipse.text;bundle-version="3.5.300",
- org.eclipse.jface
+ org.eclipse.jface,
+ org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: snakeyaml-1.11.jar,
