@@ -198,6 +198,7 @@ public class FormatOptionsPreferencePage extends FieldEditorPreferencePage
 					Preferences.ABSOLUTE_CLANG_FORMAT_FILE_PATH_PROPERTY,
 					Preferences.ABSOLUTE_CLANG_FORMAT_FILE_PATH_LABEL,
 					getFieldEditorParent());
+			clangFormatFileFieldEditor.setEmptyStringAllowed(false);
 			setClangFormatFileFieldEditorEnabled(getPreferenceStore()
 					.getString(Preferences.STYLE_OPTION).equals(
 							Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE));
