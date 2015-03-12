@@ -18,13 +18,4 @@
          point="org.eclipse.core.runtime.preferences">
       <initializer class="net.github.clang_formateclipse.PreferenceInitializer"/>
    </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            category="net.github.clang_formateclipse.PreferencePage"
-            class="net.github.clang_formateclipse.FormatOptionsPreferencePage"
-            id="net.github.clang_formateclipse..FormatOptionsPreferencePage"
-            name="Formatter settings">
-      </page>
-   </extension>
 </plugin>

@@ -1,13 +1,11 @@
 package net.github.clang_formateclipse;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.cdt.core.formatter.CodeFormatter;
@@ -18,14 +16,11 @@ import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.xml.sax.SAXException;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
 public class Formatter extends CodeFormatter {
-	private ClangVersionOptions versionOptions;
 
 	/**
 	 * Constructor of Formatter
@@ -44,7 +39,6 @@ public class Formatter extends CodeFormatter {
 	public TextEdit format(int kind, String source, int offset, int length,
 			int indentationLevel, String lineSeparator) {
 		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
-		//TODO: clang_format 3.3 does only support full text replacement 
 		Runtime RT = Runtime.getRuntime();
 		String err = "";
 		String[] args = { prefs.getString(Preferences.CLANG_FORMAT_PATH),
@@ -105,7 +99,7 @@ public class Formatter extends CodeFormatter {
 		if (!err.isEmpty()) {
 			Logger.logError(
 					String.format("Error on calling %s: %s",
-							Arrays.toString(args), err), new ClangFormatError());
+							Arrays.toString(args), err), new Exception());
 		} else {
 			int textOffset = 0;
 			int textLength = source.length();
@@ -117,54 +111,12 @@ public class Formatter extends CodeFormatter {
 		}
 		return null;
 	}
-	
-	private String renderStyleOption(FormatOption options[]) {
-		Map<String, Object> data = new HashMap<String, Object>();
-		IPreferenceStore preferenceStore = Activator.getDefault()
-				.getPreferenceStore();
-		
-		for (FormatOption option : versionOptions.getFormatOptions()) {
-			if(option.hasValue(preferenceStore)) {
-				data.put(option.getOptionName(),
-						option.getValue(preferenceStore));
-			}
-		}
-		
-		DumperOptions dumperOptions = new DumperOptions();
-		dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
-	    return new Yaml(dumperOptions).dump(data);
-	}
 
 	public String[] createOptions() throws Exception {
-		IPreferenceStore preferenceStore = Activator.getDefault()
-				.getPreferenceStore();
-		switch (preferenceStore.getString(Preferences.STYLE_OPTION)) {
-		case Preferences.CUSTOM_STYLE:
-			return new String[] { String.format("-style=%s",
-					renderStyleOption(versionOptions.getFormatOptions())) };
-		case Preferences.ABSOLUTE_CLANG_FORMAT_FILE_STYLE:
-			String clangFormatFile = preferenceStore
-					.getString(Preferences.ABSOLUTE_CLANG_FORMAT_FILE_PATH_PROPERTY);
-			File f = new File(clangFormatFile);
-			if (!(f.exists() && !f.isDirectory())) {
-				Logger.logError(clangFormatFile
-						+ " could not be found. "
-						+ "clang-format will search for one in the parent directories!");
-			}
-			// emulate a path to a cpp file at the same level as the
-			// .clang-format file to tell clang-format where to look and which
-			// language to assume
-			return new String[] { "-style=file",
-					"-assume-filename=" + clangFormatFile + ".cpp" };
-		case Preferences.RELATIVE_CLANG_FORMAT_FILE_STYLE:
-			String filePath = filePath();
-			if(filePath == null)
-				throw new Exception("Could not determine file path.");
-			return new String[]{"-style=file", "-assume-filename=" + filePath};
-		default:
-			return new String[] { String.format("-style=%s",
-					preferenceStore.getString(Preferences.STYLE_OPTION)) };
-		}
+		String filePath = filePath();
+		if (filePath == null)
+			throw new Exception("Could not determine file path.");
+		return new String[] { "-style=file", "-assume-filename=" + filePath };
 	}
 	
 	private String filePath() {
@@ -178,22 +130,6 @@ public class Formatter extends CodeFormatter {
 	}
 
 	@Override
-	public void setOptions(Map<String, ?> options) {
-		String versionString = Activator.getDefault().getPreferenceStore()
-				.getString(Preferences.VERSION);
-		ClangVersion version;
-		try {
-			version = ClangVersion.fromVersionString(versionString);
-		} catch (ClangVersionError e1) {
-			Logger.logError("Could not determine version from preferences: "
-					+ versionString, e1);
-			return;
-		}
-		try {
-			versionOptions = ClangVersionOptions.getOptionsForVersion(version);
-		} catch (UnsupportedClangVersion e) {
-			Logger.logError(e);
-		}
-	}
+	public void setOptions(Map<String, ?> options) {}
 
 }
