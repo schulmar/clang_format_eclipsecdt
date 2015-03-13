@@ -10,6 +10,9 @@ import java.util.Map;
 
 import org.eclipse.cdt.core.formatter.CodeFormatter;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.TextEdit;
@@ -35,6 +38,12 @@ public class Formatter extends CodeFormatter {
 		return result;
 	}
 	
+	private void logAndError(String message, Exception e) {
+		Logger.logError(message, e);
+		ErrorDialog.openError(null, message, e.getMessage(), new Status(
+				Status.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+	}
+	
 	@Override
 	public TextEdit format(int kind, String source, int offset, int length,
 			int indentationLevel, String lineSeparator) {
@@ -49,7 +58,7 @@ public class Formatter extends CodeFormatter {
 		try {
 			options = createOptions();
 		} catch(Exception e) {
-			Logger.logError(e);
+			logAndError("Could not compile options for clang-format", e);
 			return null;
 		}
 		if (options == null)
@@ -59,7 +68,7 @@ public class Formatter extends CodeFormatter {
 		try {
 			subProc = RT.exec(args);
 		} catch (IOException exception) {
-			Logger.logError("Could not exec command", exception);
+			logAndError("Could not execute command", exception);
 			return null;
 		}
 		OutputStream outStream = subProc.getOutputStream();
@@ -67,7 +76,7 @@ public class Formatter extends CodeFormatter {
 			outStream.write(source.getBytes(Charset.forName("UTF-8")));
 			outStream.close();
 		} catch (IOException exception) {
-			Logger.logError("Could not send command", exception);
+			logAndError("Could not send file contents", exception);
 			return null;
 		}
 		// read errors
@@ -80,7 +89,7 @@ public class Formatter extends CodeFormatter {
 				err += line + lineSeparator;
 			}
 		} catch (IOException exception) {
-			Logger.logError(exception);
+			logAndError("Could not read from stderr", exception);
 		}
 		XMLReplacementHandler replacementHandler = new XMLReplacementHandler();
 		try {
@@ -89,11 +98,11 @@ public class Formatter extends CodeFormatter {
 			parserFactory.newSAXParser().parse(subProc.getInputStream(),
 					replacementHandler);
 		} catch (IOException exception) {
-			Logger.logError(exception);
+			logAndError("Could not read from stdout", exception);
 		} catch (SAXException exception) {
-			Logger.logError(exception);
+			logAndError("Could not parse xml", exception);
 		} catch (ParserConfigurationException exception) {
-			Logger.logError(exception);
+			logAndError("Parser problem", exception);
 		}
 
 		if (!err.isEmpty()) {
