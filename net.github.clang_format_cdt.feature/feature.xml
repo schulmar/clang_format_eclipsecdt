@@ -2,11 +2,11 @@
 <feature
       id="net.github.clang_format_cdt.feature"
       label="Clang Format CDT Feature"
-      version="0.0.8"
+      version="1.0.0.beta"
       provider-name="Martin Schulze">
 
    <description url="https://github.com/schulmar/clang_format_eclipsecdt">
-      A formatter for CDT that relies on the clang_format binary.
+      A formatter for CDT that relies on the clang-format binary.
    </description>
 
    <copyright>
