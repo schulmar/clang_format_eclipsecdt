@@ -13,15 +13,14 @@ http://schulmar.github.io/clang_format_eclipsecdt/updatesite/
 Usage
 =====
 
-Once the plugin is installed you can configure the path to the `clang-format` executable under `Preferences -> Clang Format.
+Once the plugin is installed you can configure the path to the `clang-format` executable under `Preferences -> Clang Format`.
 
-After selecting "Clang Format Plugin" as the formatter under `Preferences -> C/C++ -> Code Style -> Formatter` (instead of "[built-in]"),
+After selecting `Clang Format Plugin` as the formatter under `Preferences -> C/C++ -> Code Style -> Formatter` (instead of "[built-in]"),
 Eclipse CDT will use `clang-format` as its formatter when invoked with <kbd>CTRL</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>.
-(The preview will not work as it is not a file that is visible to `clang-format`.)
+(The preview may trigger errors which stem from the fact that the preview code is not a file. You can ignore them.)
 
-clang-format`'s will search for a `.clang-format` or `_clang-format` file in the directories containing the currently edited file.
-This means workspace format settings can be achieved by putting a `.clang-format` file into the workspace directory,
-per project (override) settings by putting a (additional) `.clang-format` file in the project directory.
+`clang-format` will search upwards for a `.clang-format` or `_clang-format` file in the directories containing the currently edited file.
+This means workspace format settings can be achieved by putting a `.clang-format` file into the workspace directory, and per project (override) settings by putting an additional `.clang-format` file in the project directory.
 
 Problems
 ========
