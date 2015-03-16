@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.eclipse.cdt.core.formatter.CodeFormatter;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -25,9 +24,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 public class Formatter extends CodeFormatter {
 
-	/**
-	 * Constructor of Formatter
-	 */
 	public Formatter() {
 	}
 
@@ -38,9 +34,9 @@ public class Formatter extends CodeFormatter {
 		return result;
 	}
 	
-	private void logAndError(String message, Exception e) {
-		Logger.logError(message, e);
-		ErrorDialog.openError(null, message, e.getMessage(), new Status(
+	private void logAndDialogError(String title, Exception e) {
+		Logger.logError(title, e);
+		ErrorDialog.openError(null, title, null, new Status(
 				Status.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
 	}
 	
@@ -58,7 +54,7 @@ public class Formatter extends CodeFormatter {
 		try {
 			options = createOptions();
 		} catch(Exception e) {
-			logAndError("Could not compile options for clang-format", e);
+			logAndDialogError("Could not compile options for clang-format", e);
 			return null;
 		}
 		if (options == null)
@@ -68,7 +64,7 @@ public class Formatter extends CodeFormatter {
 		try {
 			subProc = RT.exec(args);
 		} catch (IOException exception) {
-			logAndError("Could not execute command", exception);
+			logAndDialogError("Could not execute command", exception);
 			return null;
 		}
 		OutputStream outStream = subProc.getOutputStream();
@@ -76,7 +72,7 @@ public class Formatter extends CodeFormatter {
 			outStream.write(source.getBytes(Charset.forName("UTF-8")));
 			outStream.close();
 		} catch (IOException exception) {
-			logAndError("Could not send file contents", exception);
+			logAndDialogError("Could not send file contents", exception);
 			return null;
 		}
 		// read errors
@@ -89,7 +85,7 @@ public class Formatter extends CodeFormatter {
 				err += line + lineSeparator;
 			}
 		} catch (IOException exception) {
-			logAndError("Could not read from stderr", exception);
+			logAndDialogError("Could not read from stderr", exception);
 		}
 		XMLReplacementHandler replacementHandler = new XMLReplacementHandler();
 		try {
@@ -98,27 +94,27 @@ public class Formatter extends CodeFormatter {
 			parserFactory.newSAXParser().parse(subProc.getInputStream(),
 					replacementHandler);
 		} catch (IOException exception) {
-			logAndError("Could not read from stdout", exception);
+			logAndDialogError("Could not read from stdout", exception);
 		} catch (SAXException exception) {
-			logAndError("Could not parse xml", exception);
+			logAndDialogError("Could not parse xml", exception);
 		} catch (ParserConfigurationException exception) {
-			logAndError("Parser problem", exception);
+			logAndDialogError("Parser problem", exception);
 		}
 
 		if (!err.isEmpty()) {
-			Logger.logError(
-					String.format("Error on calling %s: %s",
-							Arrays.toString(args), err), new Exception());
-		} else {
-			int textOffset = 0;
-			int textLength = source.length();
-			MultiTextEdit textEdit = new MultiTextEdit(textOffset, textLength);
-			TextEdit edits[] = new TextEdit[0];
-			edits = replacementHandler.getEdits().toArray(edits);
-			textEdit.addChildren(edits);
-			return textEdit;
-		}
-		return null;
+			logAndDialogError(
+					"clang-format call returned errors",
+					new Exception(String.format(
+							"%s\n\nfrom error stream for call %s", err,
+							Arrays.toString(args))));
+		} 
+		int textOffset = 0;
+		int textLength = source.length();
+		MultiTextEdit textEdit = new MultiTextEdit(textOffset, textLength);
+		TextEdit edits[] = new TextEdit[0];
+		edits = replacementHandler.getEdits().toArray(edits);
+		textEdit.addChildren(edits);
+		return textEdit;
 	}
 
 	public String[] createOptions() throws Exception {
