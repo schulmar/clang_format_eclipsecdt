@@ -67,7 +67,7 @@ public class XMLReplacementHandler extends DefaultHandler2 {
 		// per default assume wrong element
 		charactersBuilder = null;
 		// only act on the replacement entries
-		if (qname == REPLACEMENT_TAG_NAME) {
+		if (qname.equals(REPLACEMENT_TAG_NAME)) {
 			charactersBuilder = new StringBuilder();
 			{
 				String offsetAttributeString = attributes
