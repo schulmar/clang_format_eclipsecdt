@@ -9,13 +9,22 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.eclipse.cdt.core.formatter.CodeFormatter;
+import org.eclipse.cdt.core.formatter.DefaultCodeFormatterConstants;
+import org.eclipse.cdt.core.model.CoreModel;
+import org.eclipse.cdt.core.model.ITranslationUnit;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.xml.sax.SAXException;
 
@@ -24,6 +33,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 public class Formatter extends CodeFormatter {
 
+	private Map<String, ?> options;
+	
 	public Formatter() {
 	}
 
@@ -118,23 +129,61 @@ public class Formatter extends CodeFormatter {
 	}
 
 	public String[] createOptions() throws Exception {
-		String filePath = filePath();
+		String filePath = getTranslationUnitPath();
+		if(filePath == null)
+			filePath = this.filePath();
 		if (filePath == null)
 			throw new Exception("Could not determine file path.");
 		return new String[] { "-style=file", "-assume-filename=" + filePath };
 	}
+	 
+	private String getTranslationUnitPath() {
+		//taken from org.eclipse.cdt.core.CCodeFormatter
+		ITranslationUnit tu= (ITranslationUnit) options.get(DefaultCodeFormatterConstants.FORMATTER_TRANSLATION_UNIT);
+		if (tu == null) {
+			IFile file= (IFile) options.get(DefaultCodeFormatterConstants.FORMATTER_CURRENT_FILE);
+			if (file != null) {
+				tu= (ITranslationUnit) CoreModel.getDefault().create(file);
+			}
+		}
+		return tu == null ? null : tu.getResource().getRawLocation().toOSString();
+	}
 	
 	private String filePath() {
-		IWorkbenchPart workbenchPart = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage().getActivePart();
-		IFile file = (IFile) workbenchPart.getSite().getPage()
-				.getActiveEditor().getEditorInput().getAdapter(IFile.class);
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		if(workbench == null)
+			return null;
+		IWorkbenchWindow workbenchWindow = workbench 
+				.getActiveWorkbenchWindow();
+		if(workbenchWindow == null)
+			return null;
+		IWorkbenchPage workbenchPage = workbenchWindow.getActivePage();
+		if(workbenchPage == null)
+			return null;
+		IWorkbenchPart workbenchPart = workbenchPage.getActivePart();
+		if(workbenchPart == null)
+			return null;
+		IWorkbenchPartSite workbenchPartSite = workbenchPart.getSite();
+		if(workbenchPartSite == null)
+			return null;
+		IWorkbenchPage page = workbenchPartSite.getPage();
+		if(page == null)
+			return null;
+		IEditorPart activeEditor = page.getActiveEditor();
+		if(activeEditor == null)
+			return null;
+		IEditorInput editorInput = activeEditor.getEditorInput();
+		if(editorInput == null)
+			return null;
+		IFile file = (IFile) editorInput.getAdapter(IFile.class);
 		if (file == null)
 			return null;
 		return file.getRawLocation().toOSString();
 	}
 
 	@Override
-	public void setOptions(Map<String, ?> options) {}
+	public void setOptions(Map<String, ?> options) {
+		this.options = options;
+	}
 
 }
