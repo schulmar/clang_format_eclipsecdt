@@ -2,7 +2,7 @@
 <feature
       id="net.github.clang_format_cdt.feature"
       label="Clang Format CDT Feature"
-      version="1.0.0"
+      version="1.0.1"
       provider-name="Martin Schulze">
 
    <description url="https://github.com/schulmar/clang_format_eclipsecdt">
